@@ -25,9 +25,9 @@
 				</div>
 				<div id="classes-sidebar-list">
 					<ul>
-						<li><span class="class-color"> </span>ENGL102 - English Composition</li>
+						<!--<li><span class="class-color"> </span>ENGL102 - English Composition</li>
 						<li><span class="class-color"> </span>CIS168 - C++ Programming</li>
-						<li><span class="class-color"> </span>CIS220 - Web Programming</li>
+						<li><span class="class-color"> </span>CIS220 - Web Programming</li>-->
 						<!-- List of classes goes here -->
 					</ul>
 				</div>
@@ -37,15 +37,37 @@
 				
 			</div>
 			
-			<div class="overlay-dialog" id="dialog-new-class" onclick="destroy_dialog('dialog-new-class')">
+			<div class="overlay-dialog" id="dialog-new-class">
 				<h2>Create a class</h2>
-				<p>
-					Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.
-				</p>
+				<form id="new-class-form" action="" onsubmit="return false">
+					<input name="class-number" class="input-float-right type-input"/>
+					<label for="class-number">Class #</label><br>
+					
+					<input name="class-name" class="input-float-right type-input"/>
+					<label for="class-name">Class Name</label><br>
+					
+					<input type="date" name="class-start-date" class="input-float-right type-input"/>
+					<label for="class-start-date">Start Date</label><br>
+					
+					<input type="date" name="class-end-date" class="input-float-right type-input"/>
+					<label for="class-end-date">End Date</label><br>
+					
+					<label for="class-color">Color</label>
+					<input type="color" name="class-color" class="input-float-right" value="#FF0000"/><br>
+					
+					<fieldset style="text-align: center">
+						<input class="form-button" type="button" value="Create" onclick="submit_new_class()"/>
+						<input class="form-button" type="button" value="Cancel" onclick="destroy_dialog('dialog-new-class')"/>
+					</fieldset>
+					
+					<p class="form-error" id="class-form-error"></p>
+				</form>
 			</div>
 			
 		</div>
-		
-		<script src="scripts/test.js"></script>
+		<script src="scripts/dialog_boxes.js" type="text/javascript"></script>
+		<script src="scripts/update_data.js" type="text/javascript"></script>
+		<script src="scripts/data_submission.js" type="text/javascript"></script>
+		<script src="scripts/load.js" type="text/javascript"></script>
 	</body>
 </html>
