@@ -22,11 +22,22 @@ function update_class_sidebar() {
 
 			item.appendChild(color);
 			item.innerHTML += course.getCourseName();
-
+			//item.addEventListener("click", check_out_class(course));
 
 			document.querySelector("#classes-sidebar-list ul").appendChild(item);
 		}
 	} else {
 		document.getElementById("classes-sidebar-list").innerHTML = "<ul></ul><p id='no-classes-warning' style='text-align: center'>You do not have any courses yet.</p>";
 	}
+}
+
+// Prints all relevant information to the class onto the class overview screen (name, assignments, etc.)
+function update_class_overview() {
+	
+}
+
+// Pulls up a course on the main view
+function check_out_class(course) {
+	currentClass = course;
+	currentView = 2;
 }

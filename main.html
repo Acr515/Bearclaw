@@ -12,8 +12,38 @@
 	<body>
 		<div id="app-wrapper">
 			<div id="main-view">
-				
 				<!-- All interfacing and display info goes here- this is the main view -->
+				<div id="class-overview">
+					<div id="class-overview-header">
+						<button id="class-edit-tools" class="form-button" onclick="toggle_class_overview_tools();">
+							<span class="tridot-display"></span>
+							<span class="tridot-display"></span>
+							<span class="tridot-display"></span>
+						</button>
+						<div id="class-options">
+							<ul>
+								<li>Edit class details</li>
+								<li onclick="create_warning_dialog('This class has no start and end date. These must be set first before creating a schedule.');">Edit class schedule</li>
+								<li>Delete class</li>
+							</ul>
+						</div>
+						<h1 id="class-overview-title">CIS220 - Web Programming</h1>
+						<div class="clear-float"></div>
+					</div>
+					
+					<div id="class-overview-body">
+						<ul id="class-feed">
+							<li class="feed-item feed-assignment">
+								<input type="checkbox" class="completed-checkbox"/>
+								<button class="form-button feed-button">Edit</button>
+								
+								<h3>Assignment: Chapter 10 Review Questions</h3>
+								<h4>Due Sunday, April 5, 2020 (11:59 PM)</h4>
+								<div class="clear-float"></div>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 
 			<div id="classes-sidebar">
@@ -57,11 +87,20 @@
 					
 					<fieldset style="text-align: center">
 						<input class="form-button" type="button" value="Create" onclick="submit_new_class()"/>
-						<input class="form-button" type="button" value="Cancel" onclick="destroy_dialog('dialog-new-class')"/>
+						<input class="form-button" type="button" value="Cancel" onclick="destroy_dialog('dialog-new-class', true)"/>
 					</fieldset>
 					
 					<p class="form-error" id="class-form-error"></p>
 				</form>
+			</div>
+			<div class="overlay-dialog" id="dialog-warning">
+				<h2>Warning</h2>
+				<div style="text-align: center">
+					<p id="dialog-warning-text">
+						<!-- Warning text goes here -->
+					</p>
+					<button class="form-button" onclick="destroy_dialog('dialog-warning', false)">Okay</button>
+				</div>
 			</div>
 			
 		</div>
