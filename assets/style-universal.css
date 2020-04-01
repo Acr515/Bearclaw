@@ -1,0 +1,119 @@
+/* Universal styles for everything - structure, font, sizing, etc. */
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	overflow: hidden;
+}
+
+h2 {
+	font-family: laca-text, sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+#app-wrapper {
+	font-family: laca-text, sans-serif;
+	font-weight: 200;
+	font-style: normal;
+}
+
+#app-overlay {
+	background-color: rgba(0, 0, 0, 0.70);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	display: none;
+	opacity: 0;
+	transition: opacity .3s;
+}
+
+#classes-sidebar {
+	display: inline-block;
+	height: 100vh;
+	width: 25%;
+	margin: 0;
+	box-sizing: border-box;
+	overflow-y: scroll;
+	user-select: none;
+}
+
+#sidebar-tools {
+	display: block;
+	width: 100%;
+	height: 50px;
+	position: sticky;
+	top: 0;
+}
+
+#sidebar-tools h2 {
+	margin: 12px 10px;
+	float: right;
+}
+
+#button-add-new-class {
+	display: block;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	background-color: #dddddd;
+	vertical-align: middle;
+	line-height: 50px;
+	font-size: 2.5em;
+	color: #333333;
+	user-select: none;
+}
+
+#button-add-new-class:hover {
+	background-color: #bbbbbb;
+}
+
+#classes-sidebar-list ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#classes-sidebar-list li {
+	padding: 24px;
+	user-select: none;
+}
+
+#classes-sidebar-list li:hover {
+	background-color: #bbbbbb;
+}
+
+.class-color {
+	display: block;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background-color: #777777;
+	float: right;
+}
+
+#main-view {
+	display: inline-block;
+	height: 100vh;
+	width: 75%;
+	margin: 0;
+	float: right;
+}
+
+.overlay-dialog {
+	min-width: 300px;
+	width: 40%;
+	min-height: 320px;
+	height: 45%;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+	opacity: 0;
+	transition: opacity .3s;
+	background-color: white;
+}
