@@ -20,7 +20,7 @@
 							<span class="tridot-display"></span>
 							<span class="tridot-display"></span>
 						</button>
-						<div id="class-options">
+						<div id="class-options" onclick="toggle_class_overview_tools();">
 							<ul>
 								<li>Edit class details</li>
 								<li onclick="create_warning_dialog('This class has no start and end date. These must be set first before creating a schedule.');">Edit class schedule</li>
@@ -31,18 +31,87 @@
 						<div class="clear-float"></div>
 					</div>
 					
-					<div id="class-overview-body">
+					<div id="class-overview-body" onclick="destroy_class_overview_tools();">
 						<ul id="class-feed">
-							<li class="feed-item feed-assignment">
-								<input type="checkbox" class="completed-checkbox"/>
-								<button class="form-button feed-button">Edit</button>
-								
-								<h3>Assignment: Chapter 10 Review Questions</h3>
+							<li class="feed-item feed-assignment" id="feed-item-0">
+								<div class="completed-checkbox">
+									<input type="checkbox"/>
+									<div></div>
+									<span>&#10003;</span>
+								</div>
+								<button class="form-button feed-button"></button>
+								<h3>Assignment: Chapter 9 Review Questions <span class="overdue-text">(OVERDUE)</span></h3>
+								<h4>Due Sunday, March 30, 2020 (11:59 PM)</h4>
+								<div class="clear-float"></div>
+								<button class="expansion-button form-button" onclick="toggle_feed_item_expansion('feed-item-0'); toggle_active(event);">&#9207;</button>
+							</li>
+							<li class="feed-item feed-expansion collapsed" id="feed-item-0-expansion">
+								<div class="expansion-container">
+									<div class="assignment-checklist">
+										<span class="bold">Checklist</span>
+										<ul>
+											<li>
+												<label class="checklist-item">Go print the ting
+													<input type="checkbox"/>
+													<span class="assignment-checkbox"></span>
+												</label>
+											</li>
+											<li>
+												<label class="checklist-item">Also turn in the ting
+													<input type="checkbox"/>
+													<span class="assignment-checkbox"></span>
+												</label>
+											</li>
+											<li>
+												<label class="checklist-item">Increase the volume ting
+													<input type="checkbox"/>
+													<span class="assignment-checkbox"></span>
+												</label>
+											</li>
+										</ul>
+									</div>
+									<p class="assignment-description"><span class="bold">Description: </span> Make sure to submit online. Due before class starts but can come in early to get help. Something about a long description blah blah blah. You better get those tings down there sorted out.</p>
+									<p class="assignment-link"><span class="bold">Link: </span><a href="https://www.google.com" target="_blank">https://www.google.com</a></p>
+								</div>
+							</li>
+							<li class="feed-item feed-assignment" id="feed-item-1">
+								<div class="completed-checkbox">
+									<input type="checkbox"/>
+									<div></div>
+									<span>&#10003;</span>
+								</div>
+								<button class="form-button feed-button"></button>
+								<h3>Assignment: Chapter 10 Hands-On Exercises <span class="completion-text">(COMPLETE)</span></h3>
 								<h4>Due Sunday, April 5, 2020 (11:59 PM)</h4>
 								<div class="clear-float"></div>
+								<button class="expansion-button form-button" onclick="toggle_feed_item_expansion('feed-item-1'); toggle_active(event);">&#9207;</button>
+							</li>
+							<li class="feed-item feed-expansion collapsed" id="feed-item-1-expansion">
+								<div class="expansion-container">
+									<div class="assignment-checklist">
+										<span class="bold">Checklist</span>
+										<ul>
+											<li>
+												<label class="checklist-item">Prove that DuckDuckGo is the superior search engine
+													<input type="checkbox"/>
+													<span class="assignment-checkbox"></span>
+												</label>
+											</li>
+											<li>
+												<label class="checklist-item">Also turn in the ting
+													<input type="checkbox"/>
+													<span class="assignment-checkbox"></span>
+												</label>
+											</li>
+										</ul>
+									</div>
+									<p class="assignment-description"><span class="bold">Description: </span> God damnit boy you know that DuckDuckGo is the superior search engine. You know it!</p>
+									<p class="assignment-link"><span class="bold">Link: </span><a href="https://www.google.com" target="_blank">https://www.duckduckgo.com</a></p>
+								</div>
 							</li>
 						</ul>
 					</div>
+					
 				</div>
 			</div>
 

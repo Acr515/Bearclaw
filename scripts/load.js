@@ -48,11 +48,12 @@ class Assignment {
 	}
 	isLate() {
 		var current = new Date();
-		if (current.getMilliseconds() > this.dueDate.getMilliseconds()) return true; else return false;
+		if (current > this.dueDate) return true; else return false;
 	}
 	isWithinOneDay() {
 		var current = new Date();
-		if (current.getMilliseconds() + 86400000 > this.dueDate.getMilliseconds()) return true; else return false;
+		current.setDate(current.getDate() + 1);
+		if (current.getMilliseconds() > this.dueDate.getMilliseconds()) return true; else return false;
 	}
 }
 

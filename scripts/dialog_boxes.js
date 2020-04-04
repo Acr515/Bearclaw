@@ -104,3 +104,13 @@ function destroy_class_overview_tools() {
 		box.style.visibility = "hidden";
 	}, 300);
 }
+
+function toggle_feed_item_expansion(feedItem) {
+	var item = document.querySelector("#" + feedItem + "-expansion.feed-expansion");
+	var arrow = document.querySelector("#" + feedItem + "-expansion.feed-expansion");
+	item.classList.toggle("collapsed");
+}
+
+function toggle_active(e) {
+	e.target.classList.toggle("active");
+}
