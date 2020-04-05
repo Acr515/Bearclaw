@@ -38,7 +38,8 @@ class ClassSchedule {
 
 // One individual assignment. Holds information about due date, descriptions, and holds a Checklist object
 class Assignment {
-	constructor(name, dueDate, description, link) {
+	constructor(aid, name, dueDate, description, link) {
+		this.aid = aid;
 		this.name = name;					// Name of assignment
 		this.dueDate = dueDate;				// Due date stored in a Date object
 		this.description = description;		// Description for the assignment
@@ -53,7 +54,10 @@ class Assignment {
 	isWithinOneDay() {
 		var current = new Date();
 		current.setDate(current.getDate() + 1);
-		if (current.getMilliseconds() > this.dueDate.getMilliseconds()) return true; else return false;
+		if (current > this.dueDate && !this.isLate()) return true; else return false;
+	}
+	getID() {
+		return this.aid;
 	}
 }
 
@@ -70,6 +74,9 @@ class Checklist {
 	removeEntry(slot) {
 		this.list.splice(slot, 1);
 		this.finished.splice(slot, 1);
+	}
+	hasNoEntries() {
+		return this.list.length == 0;
 	}
 }
 

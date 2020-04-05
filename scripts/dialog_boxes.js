@@ -83,6 +83,18 @@ function destroy_dialog(type, clearFormControls) {
 				document.querySelector("#dialog-new-class h2").innerHTML = "Create a class";
 				document.querySelector("#new-class-form fieldset .form-button").value = "Create";
 			}
+			if (type == "dialog-new-assignment") {
+				for (var i = 0; i < document.getElementById("new-assignment-form").elements.length; i ++) {
+					var elm = document.getElementById("new-assignment-form").elements[i];
+					if (elm.type != "button") elm.value = "";
+					if (elm.type == "time") elm.value = "23:59";
+				}
+				document.getElementById("assignment-form-error").innerHTML = "";
+				
+				// Revert changes made to the box to accomodate editing
+				document.querySelector("#dialog-new-assignment h2").innerHTML = "Create an assignment";
+				document.querySelector("#new-assignment-form fieldset .form-button").value = "Create";
+			}
 		}
 	}, 300);
 }
@@ -111,6 +123,6 @@ function toggle_feed_item_expansion(feedItem) {
 	item.classList.toggle("collapsed");
 }
 
-function toggle_active(e) {
-	e.target.classList.toggle("active");
+function toggle_active(target) {
+	target.classList.toggle("active");
 }

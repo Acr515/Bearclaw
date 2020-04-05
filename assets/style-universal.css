@@ -7,6 +7,11 @@ body {
 	overflow: hidden;
 }
 
+:active, :focus {
+	outline: 0;
+	border: none;
+}
+
 a {
 	color: #1C337F;
 	text-decoration: none;
@@ -22,6 +27,10 @@ a:hover {
 
 .bold {
 	font-weight: 400;
+}
+
+.italic {
+	font-style: italic;
 }
 
 h1, h2 {
@@ -142,8 +151,8 @@ button {
 }
 
 .overlay-dialog {
-	min-width: 300px;
-	width: 40%;
+	min-width: 320px;
+	width: 50%;
 	max-width: 600px;
 	min-height: 350px;
 	height: auto;
@@ -181,12 +190,19 @@ label {
 	margin-bottom: 6px;
 }
 
-input {
+input, textarea {
 	margin-bottom: 6px;
 	padding: 6px;
 	font-size: 110%;
 	font-family: laca-text, sans-serif;
 	font-weight: 200;
+}
+
+.description-textarea {
+	min-width: 80px;
+	resize: none;
+	width: 60%;
+	height: 120px;
 }
 
 .type-input {
@@ -227,6 +243,13 @@ input[type="color"] {
 
 .form-button:hover {
 	background-color: #bbbbbb;
+	transform: scale(1);
+	border: none;
+}
+
+.form-button:focus {
+	transform: scale(1);
+	border: none;
 }
 
 .form-button:active {
@@ -289,7 +312,7 @@ form br, .clear-float {
 }
 
 #class-edit-tools {
-	margin: 30px 48px;
+	margin: 30px 48px 0 32px;
 	display: block;
 	float: right;
 	background-color: transparent;
@@ -341,6 +364,29 @@ form br, .clear-float {
 
 #class-options ul li:hover {
 	background-color: #bbbbbb;
+}
+
+#class-new-assignment {
+	float: right;
+	background-color: transparent;
+	cursor: pointer;
+	display: block;
+	color: #aaaaaa;
+	font-size: 3.25em;
+	font-weight: 400;
+	margin: 30px 0 0;
+	padding: 0;
+	height: 32px;
+	width: 32px;
+	line-height: 0;
+}
+
+#class-new-assignment:hover {
+	color: #777777;
+}
+
+#class-new-assignment:active {
+	color: #515151;
 }
 
 #class-feed {
@@ -457,6 +503,10 @@ form br, .clear-float {
 
 .overdue-text {
 	color: #C83638;
+}
+
+.near-due-text {
+	color: #AAA909;
 }
 
 .feed-expansion {

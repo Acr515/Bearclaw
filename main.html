@@ -20,6 +20,7 @@
 							<span class="tridot-display"></span>
 							<span class="tridot-display"></span>
 						</button>
+						<button id="class-new-assignment" class="form-button" onclick="create_new_assignment_dialog();">+</button>
 						<div id="class-options" onclick="toggle_class_overview_tools();">
 							<ul>
 								<li>Edit class details</li>
@@ -27,13 +28,12 @@
 								<li>Delete class</li>
 							</ul>
 						</div>
-						<h1 id="class-overview-title">CIS220 - Web Programming</h1>
+						<h1 id="class-overview-title"></h1>
 						<div class="clear-float"></div>
 					</div>
-					
 					<div id="class-overview-body" onclick="destroy_class_overview_tools();">
 						<ul id="class-feed">
-							<li class="feed-item feed-assignment" id="feed-item-0">
+							<!--<li class="feed-item feed-assignment" id="feed-item-0">
 								<div class="completed-checkbox">
 									<input type="checkbox"/>
 									<div></div>
@@ -56,22 +56,16 @@
 													<span class="assignment-checkbox"></span>
 												</label>
 											</li>
-											<li>
-												<label class="checklist-item">Also turn in the ting
-													<input type="checkbox"/>
-													<span class="assignment-checkbox"></span>
-												</label>
-											</li>
-											<li>
-												<label class="checklist-item">Increase the volume ting
-													<input type="checkbox"/>
-													<span class="assignment-checkbox"></span>
-												</label>
-											</li>
 										</ul>
 									</div>
-									<p class="assignment-description"><span class="bold">Description: </span> Make sure to submit online. Due before class starts but can come in early to get help. Something about a long description blah blah blah. You better get those tings down there sorted out.</p>
-									<p class="assignment-link"><span class="bold">Link: </span><a href="https://www.google.com" target="_blank">https://www.google.com</a></p>
+									<p class="assignment-description">
+										<span class="bold">Description: </span>
+										Yes
+									</p>
+									<p class="assignment-link">
+										<span class="bold">Link: </span>
+										<a href="https://www.google.com" target="_blank">https://www.google.com</a>
+									</p>
 								</div>
 							</li>
 							<li class="feed-item feed-assignment" id="feed-item-1">
@@ -108,7 +102,7 @@
 									<p class="assignment-description"><span class="bold">Description: </span> God damnit boy you know that DuckDuckGo is the superior search engine. You know it!</p>
 									<p class="assignment-link"><span class="bold">Link: </span><a href="https://www.google.com" target="_blank">https://www.duckduckgo.com</a></p>
 								</div>
-							</li>
+							</li>-->
 						</ul>
 					</div>
 					
@@ -124,9 +118,6 @@
 				</div>
 				<div id="classes-sidebar-list">
 					<ul>
-						<!--<li><span class="class-color"> </span>ENGL102 - English Composition</li>
-						<li><span class="class-color"> </span>CIS168 - C++ Programming</li>
-						<li><span class="class-color"> </span>CIS220 - Web Programming</li>-->
 						<!-- List of classes goes here -->
 					</ul>
 				</div>
@@ -139,10 +130,10 @@
 			<div class="overlay-dialog" id="dialog-new-class">
 				<h2>Create a class</h2>
 				<form id="new-class-form" action="" onsubmit="return false">
-					<input name="class-number" class="input-float-right type-input"/>
+					<input name="class-number" class="input-float-right type-input" size="8"/>
 					<label for="class-number">Class #</label><br>
 					
-					<input name="class-name" class="input-float-right type-input"/>
+					<input name="class-name" class="input-float-right type-input" size="22"/>
 					<label for="class-name">Class Name</label><br>
 					
 					<input type="date" name="class-start-date" class="input-float-right type-input"/>
@@ -162,6 +153,32 @@
 					<p class="form-error" id="class-form-error"></p>
 				</form>
 			</div>
+			<div class="overlay-dialog" id="dialog-new-assignment">
+				<h2>Create an assignment</h2>
+				<form id="new-assignment-form" action="" onsubmit="return false">
+					<input name="assignment-name" class="input-float-right type-input" size="32"/>
+					<label for="assignment-name">Assignment Name</label><br>
+					
+					<input type="date" name="assignment-due-date" class="input-float-right type-input"/>
+					<label for="assignment-due-date">Due Date</label><br>
+					
+					<input type="time" name="assignment-due-time" class="input-float-right type-input" value="23:59"/>
+					<label for="assignment-due-time">Due Time</label><br>
+					
+					<input type="url" name="assignment-link" class="input-float-right type-input" size="32"/>
+					<label for="assignment-link">Website Link</label><br>
+					
+					<textarea name="assignment-description" class="input-float-right type-input description-textarea"></textarea>
+					<label for="assignment-description">Description</label><br>
+					
+					<fieldset style="text-align: center">
+						<input class="form-button" type="button" value="Create" onclick="submit_new_assignment()"/>
+						<input class="form-button" type="button" value="Cancel" onclick="destroy_dialog('dialog-new-assignment', true)"/>
+					</fieldset>
+					
+					<p class="form-error" id="assignment-form-error"></p>
+				</form>
+			</div>
 			<div class="overlay-dialog" id="dialog-warning">
 				<h2>Warning</h2>
 				<div style="text-align: center">
@@ -173,9 +190,12 @@
 			</div>
 			
 		</div>
+
 		<script src="scripts/dialog_boxes.js" type="text/javascript"></script>
 		<script src="scripts/update_data.js" type="text/javascript"></script>
 		<script src="scripts/data_submission.js" type="text/javascript"></script>
+		<script src="scripts/sorter.js" type="text/javascript"></script>
+		<script src="scripts/readable_date.js" type="text/javascript"></script>
 		<script src="scripts/load.js" type="text/javascript"></script>
 	</body>
 </html>

@@ -9,8 +9,12 @@ function submit_new_class() {
 		
 		var startDate = new Date(form.namedItem("class-start-date").value);
 		var endDate = new Date(form.namedItem("class-end-date").value);
+		convert_to_local_timezone(startDate);
+		convert_to_local_timezone(endDate);
+		endDate.setHours(23);
+		endDate.setMinutes(59);
 		
-		if (startDate.getMilliseconds() > endDate.getMilliseconds()) throw "The start date is after the end date.";
+		if (startDate > endDate) throw "The start date is after the end date.";
 		
 		// Submit the course to the list
 		classes.push(new Class(form.namedItem("class-number").value, form.namedItem("class-name").value, form.namedItem("class-color").value, startDate, endDate));
@@ -22,4 +26,81 @@ function submit_new_class() {
 	catch(err) {
 		document.getElementById("class-form-error").innerHTML = err;
 	}
+}
+
+function submit_new_assignment() {
+	var form = document.getElementById("new-assignment-form").elements;
+	try {
+		if (form.namedItem("assignment-name").value == "") throw "Your assignment must have a name.";
+		if (form.namedItem("assignment-due-date").value == "") throw "Your assignment must have a due date.";
+		
+		var dueDate = new Date(form.namedItem("assignment-due-date").value);
+		convert_to_local_timezone(dueDate);
+		var time = form.namedItem("assignment-due-time").value;
+		dueDate.setHours(time.substr(0, 2));
+		dueDate.setMinutes(time.substr(3, 2));
+
+		// Submit the assignment to the class object
+		currentClass.assignments.push(new Assignment(generateID(), form.namedItem("assignment-name").value, dueDate, form.namedItem("assignment-description").value, form.namedItem("assignment-link").value));
+		
+		// Exit the dialog box, sort the new feed, and update the feed
+		sort_class_assignments(currentClass.assignments);
+		update_class_overview();
+		destroy_dialog("dialog-new-assignment", true);
+	}
+	catch(err) {
+		document.getElementById("assignment-form-error").innerHTML = err;
+	}
+}
+
+// Sets an assignment complete or incomplete based on the value of its checkbox. Updates the feed with completion information
+function toggle_assignment_complete(event) {
+	var assignment = find_assignment_by_id(currentClass.assignments, event.target.getAttribute("aid"));
+	assignment.finished = event.target.checked;
+	react_to_assignment_status(assignment, null);
+}
+
+// If an assignment is overdue, changes feed prompt. Overriden if assignment is completed
+function react_to_assignment_status(assignment, span) {
+	// Locate span element if necessary
+	if (span == null) {
+		var allSpans = document.querySelectorAll("span.assignment-status");
+		for (var i = 0; i < allSpans.length; i ++) {
+			if (allSpans[i].getAttribute("aid") == assignment.getID()) span = allSpans[i];
+		}
+	}
+	
+	if (assignment.isLate() && !assignment.finished) {
+		// OVERDUE
+		span.classList.add("overdue-text");
+		span.classList.remove("completion-text");
+		span.classList.remove("near-due-text");
+		span.innerHTML = "(OVERDUE)";
+	} else if (assignment.isWithinOneDay() && !assignment.finished) {
+		// DUE SOON
+		span.classList.remove("overdue-text");
+		span.classList.remove("completion-text");
+		span.classList.add("near-due-text");
+		span.innerHTML = "(DUE SOON)";
+	} else if (assignment.finished) {
+		// COMPLETE
+		span.classList.remove("overdue-text");
+		span.classList.add("completion-text");
+		span.classList.remove("near-due-text");
+		span.innerHTML = "(COMPLETE)";
+	} else {
+		// Erase contents
+		span.classList.remove("overdue-text");
+		span.classList.remove("completion-text");
+		span.classList.remove("near-due-text");
+		span.innerHTML = "";
+	}
+}
+
+// Generates a string ID of random characters 12 long beginning with an A
+function generateID() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return "A" + S4() + S4() + S4();
 }
