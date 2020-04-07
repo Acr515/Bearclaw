@@ -2,6 +2,7 @@
 
 function submit_new_class() {
 	var form = document.getElementById("new-class-form").elements;
+	var isEditing = document.querySelector("#dialog-new-class h2").innerHTML == "Edit a class";
 	try {
 		if (form.namedItem("class-name").value == "") throw "Your class must have a name.";
 		
@@ -17,10 +18,17 @@ function submit_new_class() {
 		if (startDate > endDate) throw "The start date is after the end date.";
 		
 		// Submit the course to the list
-		classes.push(new Class(form.namedItem("class-number").value, form.namedItem("class-name").value, form.namedItem("class-color").value, startDate, endDate));
+		if (!isEditing) classes.push(new Class(form.namedItem("class-number").value, form.namedItem("class-name").value, form.namedItem("class-color").value, startDate, endDate)); else {
+			currentClass.number = form.namedItem("class-number").value;
+			currentClass.name = form.namedItem("class-name").value;
+			currentClass.color = form.namedItem("class-color").value;
+			currentClass.startDate = startDate;
+			currentClass.endDate = endDate;
+		}
 		
 		// Exit the dialog box and update the sidebar list
 		update_class_sidebar();
+		if (isEditing) update_class_overview();
 		destroy_dialog("dialog-new-class", true);
 	}
 	catch(err) {
@@ -50,6 +58,38 @@ function submit_new_assignment() {
 	}
 	catch(err) {
 		document.getElementById("assignment-form-error").innerHTML = err;
+	}
+}
+
+function submit_schedule() {
+	var form = document.getElementById("schedule-form").elements;
+	try {
+		// Validate each entry on the list
+		var units = document.getElementsByClassName("schedule-unit");
+		for (var i = 0; i < units.length; i ++) {
+			var thisid = units[i].getAttribute("myid");
+			console.log(thisid);
+			var startTime = form.namedItem("start-time-" + thisid).value;
+			var endTime = form.namedItem("end-time-" + thisid).value;
+			if (startTime == "" || endTime == "") throw "One of your times is blank.";
+			if (form.namedItem("day-" + thisid).value == "-1") throw "One of your days did not get filled out.";
+			if (startTime > endTime) throw "One of your start times is after your end time.";
+		}
+		
+		// All valid, good to proceed
+		currentClass.schedule.clear();
+		for (var i = 0; i < units.length; i ++) {
+			var thisid = units[i].getAttribute("myid");
+			var startTime = form.namedItem("start-time-" + thisid).value;
+			var endTime = form.namedItem("end-time-" + thisid).value;
+			currentClass.schedule.addMeetingTime(Number(form.namedItem("day-" + thisid).value), startTime, endTime);
+		}
+		
+		update_class_overview();
+		destroy_dialog('dialog-schedule', true);
+	}
+	catch(err) {
+		document.getElementById("schedule-form-error").innerHTML = err;
 	}
 }
 

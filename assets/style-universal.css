@@ -7,10 +7,11 @@ body {
 	overflow: hidden;
 }
 
-:active, :focus {
-	outline: 0;
-	border: none;
+
+button::-moz-focus-inner {
+ 	border: 0;
 }
+
 
 a {
 	color: #1C337F;
@@ -21,7 +22,7 @@ a:visited {
 	color: #1C337F;
 }
 
-a:hover {
+a:hover, a:focus {
 	color: #122151;
 }
 
@@ -107,7 +108,7 @@ button {
 	user-select: none;
 }
 
-#button-add-new-class:hover {
+#button-add-new-class:hover, #button-add-new-class:focus {
 	background-color: #bbbbbb;
 	cursor: pointer;
 }
@@ -128,7 +129,7 @@ button {
 	transition: background-color .2s;
 }
 
-#classes-sidebar-list li:hover {
+#classes-sidebar-list li:hover, #classes-sidebar-list li:focus {
 	background-color: #bbbbbb;
 	cursor: pointer;
 }
@@ -160,14 +161,15 @@ button {
 	top: 50%;
 	left: 50%;
 	box-sizing: content-box;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -40%);
 	display: none;
 	opacity: 0;
-	transition: opacity .3s;
+	transition: opacity .3s ease, transform .25s ease;
 	background-color: white;
 	box-shadow: 18px 18px 32px #222222;
 	padding: 12px 16px;
 	z-index: 3;
+	
 }
 
 #dialog-warning {
@@ -176,6 +178,15 @@ button {
 	min-width: 200px;
 	width: 30%;
 	max-width: 450px;
+}
+
+#dialog-schedule {
+	min-width: 590px;
+	width: 60%;
+	max-width: 760px;
+	min-height: 100px;
+	max-height: 100vh;
+	overflow-y: auto;
 }
 
 .overlay-dialog h2 {
@@ -228,6 +239,10 @@ input[type="color"] {
 	height: 30px;
 }
 
+input[type="date"], input[type="time"], input[type="color"] {
+	cursor: pointer;
+}
+
 .form-button {
 	font-size: 110%;
 	display: inline;
@@ -241,7 +256,7 @@ input[type="color"] {
 	cursor: pointer;
 }
 
-.form-button:hover {
+.form-button:hover, .form-button:focus {
 	background-color: #bbbbbb;
 	transform: scale(1);
 	border: none;
@@ -279,6 +294,30 @@ form br, .clear-float {
 	clear: both;
 }
 
+.schedule-unit {
+	text-align: center;
+	margin: 6px 0;
+}
+
+.schedule-unit label {
+	margin-left: 8px;
+}
+
+select, option {
+	font-family: laca-text, sans-serif;
+	font-weight: 200;
+	font-style: normal;
+	padding: 2px;
+	font-size: 95%;
+}
+
+.x-button {
+	font-size: 1em;
+	padding: 4px;
+	width: 32px;
+	height: 32px;
+	margin: 6px;
+}
 
 /* INDIVIDUAL CLASS VIEW */
 
@@ -328,7 +367,7 @@ form br, .clear-float {
 	background-color: #aaaaaa;
 }
 
-#class-edit-tools:hover .tridot-display {
+#class-edit-tools:hover .tridot-display, #class-edit-tools:focus .tridot-display {
 	background-color: #777777;
 }
 
@@ -381,7 +420,7 @@ form br, .clear-float {
 	line-height: 0;
 }
 
-#class-new-assignment:hover {
+#class-new-assignment:hover, #class-new-assignment:focus {
 	color: #777777;
 }
 
@@ -548,7 +587,7 @@ form br, .clear-float {
 	padding: 0px 16px;
 }
 
-.feed-expansion:hover {
+.feed-expansion:hover, .feed-expansion:focus {
 	background-color: #bbbbbb;
 }
 
@@ -571,7 +610,7 @@ form br, .clear-float {
 	transform: rotate(180deg);
 }
 
-.expansion-button:hover {
+.expansion-button:hover, .expansion-button:focus {
 	background-color: transparent;
 	color: #aaaaaa;
 }

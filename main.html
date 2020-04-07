@@ -23,8 +23,8 @@
 						<button id="class-new-assignment" class="form-button" onclick="create_new_assignment_dialog();">+</button>
 						<div id="class-options" onclick="toggle_class_overview_tools();">
 							<ul>
-								<li>Edit class details</li>
-								<li onclick="create_warning_dialog('This class has no start and end date. These must be set first before creating a schedule.');">Edit class schedule</li>
+								<li onclick="create_edit_class_dialog(currentClass);">Edit class details</li>
+								<li onclick="create_schedule_dialog(currentClass);">Edit class schedule</li>
 								<li>Delete class</li>
 							</ul>
 						</div>
@@ -33,6 +33,11 @@
 					</div>
 					<div id="class-overview-body" onclick="destroy_class_overview_tools();">
 						<ul id="class-feed">
+							<li class="feed-item feed-class-time" id="feed-item-0">
+								<h3>Go to class: SOC101 - Principles of Sociology</h3>
+								<h4>Monday, April 6, 2020, 9:30 AM to 12:00 PM</h4>
+								<div class="clear-float"></div>
+							</li>
 							<!--<li class="feed-item feed-assignment" id="feed-item-0">
 								<div class="completed-checkbox">
 									<input type="checkbox"/>
@@ -66,42 +71,6 @@
 										<span class="bold">Link: </span>
 										<a href="https://www.google.com" target="_blank">https://www.google.com</a>
 									</p>
-								</div>
-							</li>
-							<li class="feed-item feed-assignment" id="feed-item-1">
-								<div class="completed-checkbox">
-									<input type="checkbox"/>
-									<div></div>
-									<span>&#10003;</span>
-								</div>
-								<button class="form-button feed-button"></button>
-								<h3>Assignment: Chapter 10 Hands-On Exercises <span class="completion-text">(COMPLETE)</span></h3>
-								<h4>Due Sunday, April 5, 2020 (11:59 PM)</h4>
-								<div class="clear-float"></div>
-								<button class="expansion-button form-button" onclick="toggle_feed_item_expansion('feed-item-1'); toggle_active(event);">&#9207;</button>
-							</li>
-							<li class="feed-item feed-expansion collapsed" id="feed-item-1-expansion">
-								<div class="expansion-container">
-									<div class="assignment-checklist">
-										<span class="bold">Checklist</span>
-										<ul>
-											<li>
-												<label class="checklist-item">Prove that DuckDuckGo is the superior search engine
-													<input type="checkbox"/>
-													<span class="assignment-checkbox"></span>
-												</label>
-											</li>
-											<li>
-												<label class="checklist-item">Also turn in the ting
-													<input type="checkbox"/>
-													<span class="assignment-checkbox"></span>
-												</label>
-											</li>
-										</ul>
-									</div>
-									<p class="assignment-description"><span class="bold">Description: </span> God damnit boy you know that DuckDuckGo is the superior search engine. You know it!</p>
-									<p class="assignment-link"><span class="bold">Link: </span><a href="https://www.google.com" target="_blank">https://www.duckduckgo.com</a></p>
-								</div>
 							</li>-->
 						</ul>
 					</div>
@@ -177,6 +146,23 @@
 					</fieldset>
 					
 					<p class="form-error" id="assignment-form-error"></p>
+				</form>
+			</div>
+			<div class="overlay-dialog" id="dialog-schedule">
+				<h2>Class schedule</h2>
+				<form id="schedule-form" action="" onsubmit="return false">
+					<div>
+						<fieldset class="schedule-unit">
+							<!-- All scheduling units go here-->
+						</fieldset>
+					</div>
+					<fieldset style="text-align: center">
+						<input class="form-button" type="button" value="Add time" onclick="schedule_add_unit()"/><br>
+						<input class="form-button" type="button" value="Submit" onclick="submit_schedule()"/>
+						<input class="form-button" type="button" value="Cancel" onclick="destroy_dialog('dialog-schedule', true)"/>
+					</fieldset>
+					
+					<p class="form-error" id="schedule-form-error">Adjusting your schedule will repost any previously deleted class meeting dates.</p>
 				</form>
 			</div>
 			<div class="overlay-dialog" id="dialog-warning">

@@ -12,6 +12,23 @@ function sort_class_assignments(assignments) {
 	});
 }
 
+// Sorts an array of TimeBased instances by their Date object values
+function sort_time_based_instances(array) {
+	array.sort(function(a, b){
+		if (a.getDay() < b.getDay()) return -1;
+			else if (a.getDay() > b.getDay()) return 1;
+		else {
+			if (a.getType() == "assignment" && b.getType() == "class-period") return -1;
+			else if (a.getType() == "class-period" && b.getType() == "assignment") return 1;
+			else if (a.getType() == "assignment" && b.getType() == "assignment") {
+				if (a.name < b.name) return -1;
+				else return 1;
+			}
+			else return -1;
+		}
+	});
+}
+
 // Searches an array of assignments for an ID
 function find_assignment_by_id(assignments, id) {
 	for (var i = 0; i < assignments.length; i ++) {

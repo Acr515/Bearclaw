@@ -1,6 +1,7 @@
 // Tests some visual features of the app
 
 var showDialog = false;
+var moduleCount = 0;
 
 function create_new_class_dialog() {
 	if (!showDialog) create_dialog("dialog-new-class");
@@ -29,8 +30,8 @@ function create_edit_class_dialog(course) {
 		var edDate = course.endDate.getDate();
 		if (edDate < 10) edDate = "0" + edDate;
 		
-		data.namedItem("class-start-date").value = course.startDate.getYear() + "-" + sdMonth + "-" + sdDate;
-		data.namedItem("class-end-date").value = course.endDate.getYear() + "-" + edMonth + "-" + edDate;
+		data.namedItem("class-start-date").value = course.startDate.getFullYear() + "-" + sdMonth + "-" + sdDate;
+		data.namedItem("class-end-date").value = course.endDate.getFullYear() + "-" + edMonth + "-" + edDate;
 		
 		create_dialog("dialog-new-class");
 	}
@@ -38,6 +39,55 @@ function create_edit_class_dialog(course) {
 
 function create_new_assignment_dialog() {
 	if (!showDialog) create_dialog("dialog-new-assignment");
+}
+
+function create_schedule_dialog(course) {
+	if (!showDialog) {
+		schedule_clear_units();
+		if (!course.schedule.isEmpty()) {
+			var form = document.getElementById("schedule-form").elements;
+			for (var i = 0; i < course.schedule.classDays.length; i ++) {
+				schedule_add_unit();
+				form.namedItem("day-" + (i + 1)).value = course.schedule.classDays[i];
+				form.namedItem("start-time-" + (i + 1)).value = course.schedule.classStarts[i];
+				form.namedItem("end-time-" + (i + 1)).value = course.schedule.classEnds[i];
+			}
+			schedule_remove_unit(0);	// clear always adds a blank unit. removes this unit
+		}
+		create_dialog("dialog-schedule");
+	}
+}
+
+// Creates a new schedule unit within which to add a new date and time of a class
+function schedule_add_unit() {
+	var fieldset = document.createElement("fieldset");
+	var myid = moduleCount;
+	fieldset.classList.add("schedule-unit");
+	fieldset.id = "unit-" + myid;
+	fieldset.setAttribute("myid", myid);
+	fieldset.innerHTML = '<select name="day-' + myid + '" required><option value="" disabled selected hidden>Choose a day</option><option value="0">Sunday</option><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option></select><label for="start-time-' + myid + '">Start Time</label><input type="time" name="start-time-' + myid + '" class="type-input"/><label for="end-time-' + myid + '">End Time</label><input type="time" name="end-time-' + myid + '" class="type-input"/>';
+	document.querySelector("#schedule-form div").appendChild(fieldset);
+	
+	var button = document.createElement("button");
+	button.innerHTML = "X";
+	button.classList.add("form-button", "x-button");
+	button.addEventListener("click", schedule_remove_unit.bind(null, myid));
+	fieldset.appendChild(button);
+	
+	moduleCount ++;
+}
+
+// Tosses out one of the schedule units
+function schedule_remove_unit(num) {
+	document.getElementById("unit-" + num).remove();
+	if (document.getElementsByClassName("schedule-unit").length == 0) schedule_add_unit();
+}
+
+// Clears every unit and leaves only one, blank unit behind
+function schedule_clear_units() {
+	document.querySelector("#schedule-form div").innerHTML = "";
+	moduleCount = 0;
+	schedule_add_unit();
 }
 
 function create_warning_dialog(warningText) {
@@ -54,6 +104,7 @@ function create_dialog(type) {
 	overlay.style.display = "block";
 	setTimeout(function() {
 		box.style.opacity = "1";
+		box.style.transform = "translate(-50%, -50%)";
 		overlay.style.opacity = "1";
 	}, 50);
 }
@@ -65,6 +116,7 @@ function destroy_dialog(type, clearFormControls) {
 	
 	box.style.opacity = "0";
 	overlay.style.opacity = "0";
+	box.style.transform = "translate(-50%, -40%)";
 	setTimeout(function() {
 		box.style.display = "none";
 		overlay.style.display = "none";

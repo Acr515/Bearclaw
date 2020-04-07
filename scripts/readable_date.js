@@ -1,12 +1,40 @@
-// Takes a Date object and makes its contents human-readable
+// Performs various conversions on Date objects to make their contents readable
 
+// Takes a Date object and converts its time to a readable format
+function readable_time(date) {
+	var diem = "AM";
+	var hh = date.getHours();
+	var mm = date.getMinutes();
+
+	// Convert from military time
+	if (hh == 0) {
+		hh = 12;
+	} else if (hh > 12) {
+		hh -= 12;
+		diem = "PM";
+	}
+
+	// Add 0 on the end of minute if needed
+	if (mm < 10) {
+		mm = "0" + mm;
+	}
+	
+	return hh + ":" + mm + " " + diem;
+}
+
+// Takes a Date object and makes its contents human-readable
 function readable_date_show_time(date, showToday) {
 	let current = new Date();
 	let dateString = "";
-	let dow, m, hh, mm, diem;
+	let dow, m;
 	
 	if (showToday && date.getDate() == current.getDate() && date.getMonth() == current.getMonth() && current.getYear() == date.getYear()) dateString = "Today";
-	else {
+	current.setDate(current.getDate() - 1);
+	if (showToday && date.getDate() == current.getDate() && date.getMonth() == current.getMonth() && current.getYear() == date.getYear()) dateString = "Yesterday";
+	current.setDate(current.getDate() + 2);
+	if (showToday && date.getDate() == current.getDate() && date.getMonth() == current.getMonth() && current.getYear() == date.getYear()) dateString = "Tomorrow";
+	
+	if (dateString == "") {
 		switch (date.getDay()) {
 			case 0:
 				dow = "Sunday";
@@ -75,31 +103,20 @@ function readable_date_show_time(date, showToday) {
 		dateString = dow + ", " + m + " " + date.getDate() + ", " + date.getFullYear();
 	}
 	
-	diem = "AM";
-	hh = date.getHours();
-	mm = date.getMinutes();
-
-	// Convert from military time
-	if (hh == 0) {
-		hh = 12;
-	} else if (hh > 12) {
-		hh -= 12;
-		diem = "PM";
-	}
-
-	// Add 0 on the end of minute if needed
-	if (mm < 10) {
-		mm = "0" + mm;
-	}
-	
-	return dateString + " (" + hh + ":" + mm + " " + diem + ")";
+	return dateString + " (" + readable_time(date) + ")";
 }
 
 // Converts a Date object to the local timezone. Specifically used for converting the time/date from a form input that defaults a date to UTC
 function convert_to_local_timezone(d) {
-	d.setFullYear(d.getUTCFullYear());
-	d.setMonth(d.getUTCMonth());
-	d.setDate(d.getUTCDate());
-	d.setHours(d.getUTCHours());
-	d.setMinutes(d.getUTCMinutes());
+	var newMinutes = d.getUTCMinutes();
+	var newHours = d.getUTCHours();
+	var newDate = d.getUTCDate();
+	var newMonth = d.getUTCMonth();
+	var newYear = d.getUTCFullYear();
+	
+	d.setMinutes(newMinutes);
+	d.setHours(newHours);
+	d.setDate(newDate);
+	d.setMonth(newMonth);
+	d.setFullYear(newYear);
 }
