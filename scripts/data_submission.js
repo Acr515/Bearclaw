@@ -15,6 +15,11 @@ function submit_new_class() {
 		endDate.setHours(23);
 		endDate.setMinutes(59);
 		
+		if (form.namedItem("class-start-date").value == "") {
+			startDate = null;
+			endDate = null;
+		}
+		
 		if (startDate > endDate) throw "The start date is after the end date.";
 		
 		// Submit the course to the list
@@ -49,7 +54,7 @@ function submit_new_assignment() {
 		dueDate.setMinutes(time.substr(3, 2));
 
 		// Submit the assignment to the class object
-		currentClass.assignments.push(new Assignment(generateID(), form.namedItem("assignment-name").value, dueDate, form.namedItem("assignment-description").value, form.namedItem("assignment-link").value));
+		currentClass.addAssignment(new Assignment(generateID(), form.namedItem("assignment-name").value, dueDate, form.namedItem("assignment-description").value, form.namedItem("assignment-link").value, currentClass));
 		
 		// Exit the dialog box, sort the new feed, and update the feed
 		sort_class_assignments(currentClass.assignments);
@@ -68,12 +73,19 @@ function submit_schedule() {
 		var units = document.getElementsByClassName("schedule-unit");
 		for (var i = 0; i < units.length; i ++) {
 			var thisid = units[i].getAttribute("myid");
-			console.log(thisid);
 			var startTime = form.namedItem("start-time-" + thisid).value;
 			var endTime = form.namedItem("end-time-" + thisid).value;
+			if (startTime == "" && endTime == "" && form.namedItem("day-" + thisid).value == "" && units.length == 1) {
+				// User is deleting their schedule
+				currentClass.schedule.clear();
+				currentClass.schedule.deleteAll();
+				update_class_overview();
+				destroy_dialog('dialog-schedule', true);
+				return;
+			} 
 			if (startTime == "" || endTime == "") throw "One of your times is blank.";
-			if (form.namedItem("day-" + thisid).value == "-1") throw "One of your days did not get filled out.";
-			if (startTime > endTime) throw "One of your start times is after your end time.";
+			if (form.namedItem("day-" + thisid).value == "") throw "One of your days did not get filled out.";
+			if (startTime > endTime) throw "One of your start times is after its end time.";
 		}
 		
 		// All valid, good to proceed
@@ -84,6 +96,7 @@ function submit_schedule() {
 			var endTime = form.namedItem("end-time-" + thisid).value;
 			currentClass.schedule.addMeetingTime(Number(form.namedItem("day-" + thisid).value), startTime, endTime);
 		}
+		currentClass.schedule.export(currentClass.startDate, currentClass.endDate);
 		
 		update_class_overview();
 		destroy_dialog('dialog-schedule', true);
@@ -91,6 +104,13 @@ function submit_schedule() {
 	catch(err) {
 		document.getElementById("schedule-form-error").innerHTML = err;
 	}
+}
+
+// Deletes a class from memory
+function delete_class(course) {
+	if (currentClass == course) currentClass = undefined;
+	classes.splice(classes.indexOf(course), 1);
+	update_class_sidebar();
 }
 
 // Sets an assignment complete or incomplete based on the value of its checkbox. Updates the feed with completion information

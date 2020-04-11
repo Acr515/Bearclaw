@@ -25,53 +25,17 @@
 							<ul>
 								<li onclick="create_edit_class_dialog(currentClass);">Edit class details</li>
 								<li onclick="create_schedule_dialog(currentClass);">Edit class schedule</li>
-								<li>Delete class</li>
+								<li onclick="create_hidden_restore_confirmation();">Restore hidden class periods</li>
+								<li onclick="create_all_restore_confirmation();">Restore all class periods</li>
+								<li onclick="create_class_delete_confirmation();">Delete class</li>
 							</ul>
 						</div>
 						<h1 id="class-overview-title"></h1>
 						<div class="clear-float"></div>
 					</div>
-					<div id="class-overview-body" onclick="destroy_class_overview_tools();">
+					<div id="class-overview-body">
 						<ul id="class-feed">
-							<li class="feed-item feed-class-time" id="feed-item-0">
-								<h3>Go to class: SOC101 - Principles of Sociology</h3>
-								<h4>Monday, April 6, 2020, 9:30 AM to 12:00 PM</h4>
-								<div class="clear-float"></div>
-							</li>
-							<!--<li class="feed-item feed-assignment" id="feed-item-0">
-								<div class="completed-checkbox">
-									<input type="checkbox"/>
-									<div></div>
-									<span>&#10003;</span>
-								</div>
-								<button class="form-button feed-button"></button>
-								<h3>Assignment: Chapter 9 Review Questions <span class="overdue-text">(OVERDUE)</span></h3>
-								<h4>Due Sunday, March 30, 2020 (11:59 PM)</h4>
-								<div class="clear-float"></div>
-								<button class="expansion-button form-button" onclick="toggle_feed_item_expansion('feed-item-0'); toggle_active(event);">&#9207;</button>
-							</li>
-							<li class="feed-item feed-expansion collapsed" id="feed-item-0-expansion">
-								<div class="expansion-container">
-									<div class="assignment-checklist">
-										<span class="bold">Checklist</span>
-										<ul>
-											<li>
-												<label class="checklist-item">Go print the ting
-													<input type="checkbox"/>
-													<span class="assignment-checkbox"></span>
-												</label>
-											</li>
-										</ul>
-									</div>
-									<p class="assignment-description">
-										<span class="bold">Description: </span>
-										Yes
-									</p>
-									<p class="assignment-link">
-										<span class="bold">Link: </span>
-										<a href="https://www.google.com" target="_blank">https://www.google.com</a>
-									</p>
-							</li>-->
+							<!-- Assignments and class periods go here -->
 						</ul>
 					</div>
 					
@@ -162,7 +126,7 @@
 						<input class="form-button" type="button" value="Cancel" onclick="destroy_dialog('dialog-schedule', true)"/>
 					</fieldset>
 					
-					<p class="form-error" id="schedule-form-error">Adjusting your schedule will repost any previously deleted class meeting dates.</p>
+					<p class="form-error" id="schedule-form-error"></p>
 				</form>
 			</div>
 			<div class="overlay-dialog" id="dialog-warning">
@@ -174,6 +138,16 @@
 					<button class="form-button" onclick="destroy_dialog('dialog-warning', false)">Okay</button>
 				</div>
 			</div>
+			<div class="overlay-dialog" id="dialog-confirmation">
+				<h2>Confirmation</h2>
+				<div style="text-align: center">
+					<p id="dialog-confirmation-text">
+						<!-- Confirmation text goes here -->
+					</p>
+					<button class="form-button" id="button-confirm-action">Yes</button>
+					<button class="form-button" onclick="destroy_dialog('dialog-confirmation', true)">No</button>
+				</div>
+			</div>
 			
 		</div>
 
@@ -182,6 +156,8 @@
 		<script src="scripts/data_submission.js" type="text/javascript"></script>
 		<script src="scripts/sorter.js" type="text/javascript"></script>
 		<script src="scripts/readable_date.js" type="text/javascript"></script>
+		<script src="scripts/feed_manipulate.js" type="text/javascript"></script>
+		<script src="scripts/draggable.js" type="text/javascript"></script>
 		<script src="scripts/load.js" type="text/javascript"></script>
 	</body>
 </html>

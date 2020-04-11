@@ -18,20 +18,22 @@ function create_edit_class_dialog(course) {
 		data.namedItem("class-number").value = course.number;
 		data.namedItem("class-color").value = course.color;
 		
-		var sdMonth = course.startDate.getMonth() + 1;
-		if (sdMonth < 10) sdMonth = "0" + sdMonth;
-		
-		var sdDate = course.startDate.getDate();
-		if (sdDate < 10) sdDate = "0" + sdDate;
-		
-		var edMonth = course.endDate.getMonth() + 1;
-		if (edMonth < 10) edMonth = "0" + edMonth;
-		
-		var edDate = course.endDate.getDate();
-		if (edDate < 10) edDate = "0" + edDate;
-		
-		data.namedItem("class-start-date").value = course.startDate.getFullYear() + "-" + sdMonth + "-" + sdDate;
-		data.namedItem("class-end-date").value = course.endDate.getFullYear() + "-" + edMonth + "-" + edDate;
+		if (course.hasDateRange()) {
+			var sdMonth = course.startDate.getMonth() + 1;
+			if (sdMonth < 10) sdMonth = "0" + sdMonth;
+
+			var sdDate = course.startDate.getDate();
+			if (sdDate < 10) sdDate = "0" + sdDate;
+
+			var edMonth = course.endDate.getMonth() + 1;
+			if (edMonth < 10) edMonth = "0" + edMonth;
+
+			var edDate = course.endDate.getDate();
+			if (edDate < 10) edDate = "0" + edDate;
+
+			data.namedItem("class-start-date").value = course.startDate.getFullYear() + "-" + sdMonth + "-" + sdDate;
+			data.namedItem("class-end-date").value = course.endDate.getFullYear() + "-" + edMonth + "-" + edDate;
+		}
 		
 		create_dialog("dialog-new-class");
 	}
@@ -42,7 +44,7 @@ function create_new_assignment_dialog() {
 }
 
 function create_schedule_dialog(course) {
-	if (!showDialog) {
+	if (!showDialog && course.hasDateRange()) {
 		schedule_clear_units();
 		if (!course.schedule.isEmpty()) {
 			var form = document.getElementById("schedule-form").elements;
@@ -55,6 +57,8 @@ function create_schedule_dialog(course) {
 			schedule_remove_unit(0);	// clear always adds a blank unit. removes this unit
 		}
 		create_dialog("dialog-schedule");
+	} else if (!showDialog && !course.hasDateRange()) {
+		create_warning_dialog("You cannot add a schedule to a class that does not have start and end dates.")
 	}
 }
 
@@ -93,6 +97,48 @@ function schedule_clear_units() {
 function create_warning_dialog(warningText) {
 	document.getElementById("dialog-warning-text").innerHTML = warningText;
 	if (!showDialog) create_dialog("dialog-warning");
+}
+
+function create_class_delete_confirmation() {
+	document.getElementById("dialog-confirmation-text").innerHTML = "Deleting a class will also delete any assignments or schedules associated with it. This cannot be undone. Are you sure you would like to proceed?";
+	document.getElementById("button-confirm-action").onclick = function() {
+		delete_class(currentClass);
+		destroy_dialog('dialog-confirmation', true);
+	};
+	if (!showDialog) create_dialog("dialog-confirmation");
+}
+
+function create_hidden_restore_confirmation() {
+	if (currentClass.schedule.isEmpty()) {
+		create_warning_dialog("You must have a schedule created for this class to perform this action.");
+		return;
+	}
+	document.getElementById("dialog-confirmation-text").innerHTML = "This will unhide every class period that you previously hid. Are you sure you wish to continue?";
+	document.getElementById("button-confirm-action").onclick = function() {
+		var schedule = currentClass.schedule.classTimes;
+		for (var i = 0; i < schedule.length; i ++) {
+			schedule[i].hidden = false;
+		}
+		currentClass.schedule.export();
+		update_class_overview();
+		destroy_dialog('dialog-confirmation', true);
+	};
+	if (!showDialog) create_dialog("dialog-confirmation");
+}
+
+function create_all_restore_confirmation() {
+	if (currentClass.schedule.isEmpty()) {
+		create_warning_dialog("You must have a schedule created for this class to perform this action.");
+		return;
+	}
+	document.getElementById("dialog-confirmation-text").innerHTML = "This will unhide every class period that you previously hid as well as reverse any changes you applied to any specific class periods. Are you sure you wish to continue?";
+	document.getElementById("button-confirm-action").onclick = function() {
+		currentClass.schedule.clear();
+		currentClass.schedule.export();
+		update_class_overview();
+		destroy_dialog('dialog-confirmation', true);
+	};
+	if (!showDialog) create_dialog("dialog-confirmation");
 }
 
 function create_dialog(type) {
@@ -146,6 +192,10 @@ function destroy_dialog(type, clearFormControls) {
 				// Revert changes made to the box to accomodate editing
 				document.querySelector("#dialog-new-assignment h2").innerHTML = "Create an assignment";
 				document.querySelector("#new-assignment-form fieldset .form-button").value = "Create";
+			}
+			if (type == "dialog-confirmation") {
+				document.getElementById("button-confirm-action").removeEventListener("click");
+				document.getElementById("dialog-confirmation-text").innerHTML = "";
 			}
 		}
 	}, 300);

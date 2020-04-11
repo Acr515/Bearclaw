@@ -36,3 +36,13 @@ function find_assignment_by_id(assignments, id) {
 	}
 	return null;
 }
+
+// Checks if two Date objects hold the same day and time
+function identical_date_time(date1, date2) {
+	return !(date1 > date2 || date1 < date2);
+}
+
+// Checks if two Date objects hold the same day, insensitive to time
+function identical_date(date1, date2) {
+	return (date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear());
+}

@@ -22,88 +22,88 @@ function readable_time(date) {
 	return hh + ":" + mm + " " + diem;
 }
 
-// Takes a Date object and makes its contents human-readable
-function readable_date_show_time(date, showToday) {
+// Takes a Date object and converts its date to a readable format
+function readable_date(date, showToday) {
 	let current = new Date();
-	let dateString = "";
 	let dow, m;
 	
-	if (showToday && date.getDate() == current.getDate() && date.getMonth() == current.getMonth() && current.getYear() == date.getYear()) dateString = "Today";
+	if (showToday && date.getDate() == current.getDate() && date.getMonth() == current.getMonth() && current.getYear() == date.getYear()) return "Today";
 	current.setDate(current.getDate() - 1);
-	if (showToday && date.getDate() == current.getDate() && date.getMonth() == current.getMonth() && current.getYear() == date.getYear()) dateString = "Yesterday";
+	if (showToday && date.getDate() == current.getDate() && date.getMonth() == current.getMonth() && current.getYear() == date.getYear()) return "Yesterday";
 	current.setDate(current.getDate() + 2);
-	if (showToday && date.getDate() == current.getDate() && date.getMonth() == current.getMonth() && current.getYear() == date.getYear()) dateString = "Tomorrow";
-	
-	if (dateString == "") {
-		switch (date.getDay()) {
-			case 0:
-				dow = "Sunday";
-				break;
-			case 1:
-				dow = "Monday";
-				break;
-			case 2:
-				dow = "Tuesday";
-				break;
-			case 3:
-				dow = "Wednesday";
-				break;
-			case 4:
-				dow = "Thursday";
-				break;
-			case 5:
-				dow = "Friday";
-				break;
-			case 6:
-				dow = "Saturday";
-				break;
-			default:
-				dow = "???";
-		}
-		switch (date.getMonth() + 1) {
-			case 1:
-				m = "January";
-				break;
-			case 2:
-				m = "February";
-				break;
-			case 3:
-				m = "March";
-				break;
-			case 4:
-				m = "April";
-				break;
-			case 5:
-				m = "May";
-				break;
-			case 6:
-				m = "June";
-				break;
-			case 7:
-				m = "July";
-				break;
-			case 8:
-				m = "August";
-				break;
-			case 9:
-				m = "September";
-				break;
-			case 10:
-				m = "October";
-				break;
-			case 11:
-				m = "November";
-				break;
-			case 12:
-				m = "December";
-				break;
-			default:
-				m = "???";
-		}
-		dateString = dow + ", " + m + " " + date.getDate() + ", " + date.getFullYear();
+	if (showToday && date.getDate() == current.getDate() && date.getMonth() == current.getMonth() && current.getYear() == date.getYear()) return "Tomorrow";
+
+	switch (date.getDay()) {
+		case 0:
+			dow = "Sunday";
+			break;
+		case 1:
+			dow = "Monday";
+			break;
+		case 2:
+			dow = "Tuesday";
+			break;
+		case 3:
+			dow = "Wednesday";
+			break;
+		case 4:
+			dow = "Thursday";
+			break;
+		case 5:
+			dow = "Friday";
+			break;
+		case 6:
+			dow = "Saturday";
+			break;
+		default:
+			dow = "???";
 	}
-	
-	return dateString + " (" + readable_time(date) + ")";
+	switch (date.getMonth() + 1) {
+		case 1:
+			m = "January";
+			break;
+		case 2:
+			m = "February";
+			break;
+		case 3:
+			m = "March";
+			break;
+		case 4:
+			m = "April";
+			break;
+		case 5:
+			m = "May";
+			break;
+		case 6:
+			m = "June";
+			break;
+		case 7:
+			m = "July";
+			break;
+		case 8:
+			m = "August";
+			break;
+		case 9:
+			m = "September";
+			break;
+		case 10:
+			m = "October";
+			break;
+		case 11:
+			m = "November";
+			break;
+		case 12:
+			m = "December";
+			break;
+		default:
+			m = "???";
+	}
+	return dow + ", " + m + " " + date.getDate() + ", " + date.getFullYear();
+}
+
+// Takes a Date object and makes its contents human-readable
+function readable_date_show_time(date, showToday) {
+	return readable_date(date, showToday) + " (" + readable_time(date) + ")";
 }
 
 // Converts a Date object to the local timezone. Specifically used for converting the time/date from a form input that defaults a date to UTC

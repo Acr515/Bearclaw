@@ -7,11 +7,9 @@ body {
 	overflow: hidden;
 }
 
-
 button::-moz-focus-inner {
  	border: 0;
 }
-
 
 a {
 	color: #1C337F;
@@ -172,7 +170,7 @@ button {
 	
 }
 
-#dialog-warning {
+#dialog-warning, #dialog-confirmation {
 	min-height: 180px;
 	height: auto;
 	min-width: 200px;
@@ -434,6 +432,19 @@ select, option {
 	width: 100%;
 }
 
+.number-label-assignment {
+	background-color: red;
+	border-radius: 8px;
+	padding: 6px;
+	color: white;
+	font-weight: 400;
+	position: relative;
+	right: 1.5%;
+	text-align: right;
+	bottom: 50px;
+	float: right;
+}
+
 .feed-item {
 	list-style: none;
 	user-select: none;
@@ -636,7 +647,7 @@ select, option {
 .checklist-item {
 	display: block;
 	position: relative;
-	padding: 5px 0px 5px 32px;
+	padding: 5px 24px 5px 32px;
 	margin: 0;
 	cursor: pointer;
 	transition: background-color .2s;
@@ -656,6 +667,11 @@ select, option {
 	cursor: pointer;
 	height: 0;
 	width: 0;
+}
+
+.checklist-li {
+	position: relative;
+	transition: padding .12s ease;
 }
 
 .assignment-checkbox {
@@ -690,4 +706,46 @@ select, option {
 .container .checkmark:after {
 	left: 9px;
 	top: 5px;
+}
+
+.checklist-item.checklist-add-item {
+    padding-left: 6px;
+    color: #666;
+    font-style: italic;
+}
+
+.checklist-remove-item {
+	color: #999;
+    font-weight: 400;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 6px;
+    margin: auto 0;
+    width: 20px;
+    height: 20px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.checklist-remove-item:hover, .checklist-remove-item:focus {
+	color: #777;
+}
+
+.checklist-remove-item:active {
+	color: #444;
+}
+
+.checklist-insert-slot {
+	height: 0;
+	padding: 0;
+	background-color: #5FB7FF;
+}
+
+/* This item must be at the bottom of the style sheet so that it overrides all other items */
+.transit {
+	position: fixed;
+	cursor: grabbing;
+	z-index: 6;
+	transform: rotate(9deg);
 }

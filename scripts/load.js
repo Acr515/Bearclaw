@@ -20,6 +20,12 @@ class Class {
 	deleteAssignment(slot) {
 		this.assignments.splice(slot, 1);
 	}
+	hasDateRange() {
+		return !(this.startDate == null || this.endDate == null);
+	}
+	hasCourseNumber() {
+		return this.number != "";
+	}
 }
 
 // Holds meeting times for a Class object
@@ -29,6 +35,7 @@ class ClassSchedule {
 		this.classDays = [];		// Array of days of the week that classes take place during
 		this.classStarts = [];		// Array of times when class begins. NOT A Date OBJECT
 		this.classEnds = [];		// Array of times when class ends. ALSO NOT A Date OBJECT
+		this.classTimes = [];		// Array of ClassTime objects created by export() method
 	}
 	clear() {
 		this.classDays = [];
@@ -63,12 +70,15 @@ class ClassSchedule {
 				return "???";
 		}
 	}
+	// This method should only be run when a NEW SCHEDULE IS SUBMITTED, OR IF DATES ARE BEING EXPLICITLY RESET
 	export(startDate, endDate) {
 		// Delivers an array of ClassTime instances beginning and ending on specified days
-		var classTimes = [];
-		for (var day = startDate; day <= endDate; day.setDate(day.getDate() + 1)) {
+		var refStartDate = new Date(startDate);
+		var referenceList = [];
+		for (var day = refStartDate; day <= endDate; day.setDate(day.getDate() + 1)) {
 			for (var inst = 0; inst < this.classDays.length; inst ++) {
 				if (this.classDays[inst] == day.getDay()) {
+					// Create new event
 					var localStart, localEnd;
 					localStart = new Date(day.getFullYear(), day.getMonth(), day.getDate());
 					localEnd = new Date(day.getFullYear(), day.getMonth(), day.getDate());
@@ -79,11 +89,37 @@ class ClassSchedule {
 					localEnd.setHours(this.classEnds[inst].substr(0, 2));
 					localEnd.setMinutes(this.classEnds[inst].substr(3, 2));
 					
-					classTimes.push(new ClassTime(this.myClass, localStart, localEnd));
+					referenceList.push(new ClassTime(this.myClass, localStart, localEnd));
 				}
 			}
 		}
-		return classTimes;
+		// Delete anything from the original list that wasn't modified or hidden
+		var markForDeletion = [];
+		for (var inst = 0; inst < this.classTimes.length; inst ++) {
+			if (!this.classTimes[inst].hidden && !this.classTimes[inst].modified) markForDeletion.push(inst);
+		}
+		for (var inst = 0; inst < referenceList.length; inst ++) {
+			if (markForDeletion.indexOf(inst) != -1) this.classTimes.splice(inst, 1);
+		}
+		// Delete anything from the new list if it matches the day of a modified or hidden day
+		markForDeletion = [];
+		for (var inst = 0; inst < referenceList.length; inst ++) {
+			for (var checkDay = 0; checkDay < this.classTimes.length; checkDay ++) {
+				if (!identical_date(this.classTimes[checkDay].getDay(), referenceList[inst].getDay())) markForDeletion.push(inst);
+			}
+		}
+		for (var inst = 0; inst < referenceList.length; inst ++) {
+			if (markForDeletion.indexOf(inst) != -1) referenceList.splice(inst, 1);
+		}
+		// Delete anything from the original list that was hidden
+		for (var inst = 0; inst < this.classTimes.length; inst ++) {
+			if (this.classTimes[inst].hidden) this.classTimes.splice(inst, 1);
+		}
+		// Concatenate arrays
+		this.classTimes = this.classTimes.concat(referenceList);
+	}
+	deleteAll() {
+		this.classTimes = [];
 	}
 }
 
@@ -108,6 +144,8 @@ class ClassTime extends TimeBased {
 		this.myClass = myClass;				// Reference to this class time's Class holder
 		this.startTime = startTime;			// A Date object for the time that this class begins
 		this.endTime = endTime;				// A Date object for the time that this class ends
+		this.hidden = false;				// Whether or not the user has opted to hide this time (i.e. for a break, cancelled class)
+		this.modified = false;				// Whether or not the user has manually adjusted the time on this specific class date
 	}
 	getDay() {
 		return this.startTime;
@@ -115,11 +153,19 @@ class ClassTime extends TimeBased {
 	getReadableTimes() {
 		return readable_time(this.startTime) + " - " + readable_time(this.endTime);
 	}
+	getReadableDayAndTimes(showToday) {
+		return readable_date(this.startTime, showToday) + ", " + this.getReadableTimes();
+	}
+	changeTimes(newStartTime, newEndTime) {
+		this.startTime = newStartTime;
+		this.endTime = newEndTime;
+		this.modified = true;
+	}
 }
 
 // One individual assignment. Holds information about due date, descriptions, and holds a Checklist object
 class Assignment extends TimeBased {
-	constructor(aid, name, dueDate, description, link) {
+	constructor(aid, name, dueDate, description, link, myClass) {
 		super();
 		this.type = "assignment";			// Identifies assignments from ClassTime instances
 		this.aid = aid;						// Unique ID associated with assignment
@@ -129,6 +175,7 @@ class Assignment extends TimeBased {
 		this.link = link;					// Applicable link for assignment
 		this.checklist = new Checklist();	// List of requisite activities that need to be completed for the assignment
 		this.finished = false;				// Whether or not the assignment is complete
+		this.myClass = myClass;				// Reference to this assignment's Class object
 	}
 	getDay() {
 		return this.dueDate;
@@ -160,6 +207,21 @@ class Checklist {
 	removeEntry(slot) {
 		this.list.splice(slot, 1);
 		this.finished.splice(slot, 1);
+	}
+	reorderEntry(slot, newSlot) {
+		var tempItem = this.list.splice(slot, 1);
+		var tempBool = this.finished.splice(slot, 1);
+
+		if (newSlot == this.list.length + 1) {
+			console.log("PUSHING NOW");
+			this.list.push(tempItem);
+			this.finished.push(tempBool);
+		} else {
+			console.log("SPLICING NOW");
+			if (slot <= newSlot) newSlot --;	// fixes problem with array size changing on splices
+			this.list.splice(newSlot, 0, tempItem);
+			this.finished.splice(newSlot, 0, tempBool);
+		}
 	}
 	hasNoEntries() {
 		return this.list.length == 0;
