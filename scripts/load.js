@@ -10,6 +10,7 @@ class Class {
 		this.endDate = endDate;						// Last day of class
 		this.assignments = [];						// Assignments for this course
 		this.schedule = new ClassSchedule(this);	// Times and days that the class meets
+		this.jsClassName = "Class";
 	}
 	getCourseName() {
 		if (this.number != "") return this.number + " - " + this.name; else return this.name;
@@ -36,6 +37,7 @@ class ClassSchedule {
 		this.classStarts = [];		// Array of times when class begins. NOT A Date OBJECT
 		this.classEnds = [];		// Array of times when class ends. ALSO NOT A Date OBJECT
 		this.classTimes = [];		// Array of ClassTime objects created by export() method
+		this.jsClassName = "ClassSchedule";
 	}
 	clear() {
 		this.classDays = [];
@@ -128,6 +130,7 @@ class TimeBased {
 	constructor() {
 		this.day;
 		this.type;
+		this.jsClassName = "TimeBased";
 	}
 	getDay() {
 		return this.day;
@@ -146,6 +149,10 @@ class ClassTime extends TimeBased {
 		this.endTime = endTime;				// A Date object for the time that this class ends
 		this.hidden = false;				// Whether or not the user has opted to hide this time (i.e. for a break, cancelled class)
 		this.modified = false;				// Whether or not the user has manually adjusted the time on this specific class date
+		this.jsClassName = "ClassTime";
+	}
+	getClassName() {
+		return "ClassTime";
 	}
 	getDay() {
 		return this.startTime;
@@ -176,6 +183,7 @@ class Assignment extends TimeBased {
 		this.checklist = new Checklist();	// List of requisite activities that need to be completed for the assignment
 		this.finished = false;				// Whether or not the assignment is complete
 		this.myClass = myClass;				// Reference to this assignment's Class object
+		this.jsClassName = "Assignment";
 	}
 	getDay() {
 		return this.dueDate;
@@ -199,6 +207,7 @@ class Checklist {
 	constructor() {
 		this.list = [];
 		this.finished = [];
+		this.jsClassName = "Checklist";
 	}
 	addEntry(description) {
 		this.list.push(description);
@@ -213,11 +222,9 @@ class Checklist {
 		var tempBool = this.finished.splice(slot, 1);
 
 		if (newSlot == this.list.length + 1) {
-			console.log("PUSHING NOW");
 			this.list.push(tempItem);
 			this.finished.push(tempBool);
 		} else {
-			console.log("SPLICING NOW");
 			if (slot <= newSlot) newSlot --;	// fixes problem with array size changing on splices
 			this.list.splice(newSlot, 0, tempItem);
 			this.finished.splice(newSlot, 0, tempBool);
@@ -228,6 +235,72 @@ class Checklist {
 	}
 }
 
+function set_protos(obj) {
+	if (typeof obj !== 'object' || obj === null) return;
+	if (Object.keys(obj).length > 0) for (var key in obj) {
+		if (typeof obj[key] === 'object') setTimeout(function() {
+			set_protos(obj[key])
+		}, 0);
+	}
+	if (obj.jsClassName !== undefined) obj.__proto__ = (new (get_class_from_string(obj.jsClassName))).__proto__;
+	return;
+}
+	
+function get_class_from_string(str) {
+	switch (str) {
+		case "Class": return Class;
+		case "ClassSchedule": return ClassSchedule;
+		case "TimeBased": return TimeBased;
+		case "ClassTime": return ClassTime;
+		case "Assignment": return Assignment;
+		case "Checklist": return Checklist;
+		default: return null;
+	}
+}
+
+// Reconstructs objects and loads them into memory
+function load_data() {
+	classes = JSON.parse(localStorage.classes);
+	set_protos(classes);
+	reconstruct_data();
+}
+
+// Deconstructs objects and saves them into memory
+function save_data() {
+	deconstruct_data();
+	localStorage.classes = JSON.stringify(classes);
+	reconstruct_data();
+}
+
+// Deconstructs the classes object tree, stripping its children of references to its various parents
+function deconstruct_data() {
+	for (var i = 0; i < classes.length; i ++) {
+		let c = classes[i];
+		c.schedule.myClass = {};
+		for (var j = 0; j < c.schedule.classTimes.length; j ++) {
+			c.schedule.classTimes[j].myClass = {};
+		}
+		for (var j = 0; j < c.assignments.length; j ++) {
+			c.assignments[j].myClass = {};
+		}
+	}
+}
+
+// Reconstructs the classes object tree, giving its children references to its parent classes
+function reconstruct_data() {
+	for (var i = 0; i < classes.length; i ++) {
+		let c = classes[i];
+		c.schedule.myClass = c;
+		for (var j = 0; j < c.schedule.classTimes.length; j ++) {
+			c.schedule.classTimes[j].myClass = c;
+		}
+		for (var j = 0; j < c.assignments.length; j ++) {
+			c.assignments[j].myClass = c;
+		}
+	}
+}
+
+
 var classes = [];				// List of all classes, stems out further with all assignments, checklists, and schedules
 var currentClass = undefined;	// The current class object that is being focused on, if any
 var currentView = 0;			// The current view (0 = overview feed, 1 = calendar view, 2 = specific class view)
@@ -236,10 +309,13 @@ document.getElementById("class-options").style.visibility = "hidden";	// Workaro
 
 // Load data from localStorage
 if (localStorage.classes !== undefined && localStorage.classes != "") {
-	classes = JSON.parse(localStorage.classes);
+	load_data();
+	set_protos(classes);
 } else {
 	localStorage.classes = "";
 }
 
 // First-time renders of sidebar, others
-update_class_sidebar();
+setTimeout(function() {
+	update_class_sidebar();
+}, 250);

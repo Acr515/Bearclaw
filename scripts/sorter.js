@@ -29,8 +29,16 @@ function sort_time_based_instances(array) {
 	});
 }
 
-// Searches an array of assignments for an ID
+// Searches an array of assignments for an ID, OR searches all assignments if an array is not given
 function find_assignment_by_id(assignments, id) {
+	if (id === undefined) {
+		id = assignments;
+		assignments = [];
+		// Concatenate all assignment arrays for all classes
+		for (var i = 0; i < classes.length; i ++) {
+			assignments = assignments.concat(classes[i].assignments);
+		}
+	}
 	for (var i = 0; i < assignments.length; i ++) {
 		if (assignments[i].getID() == id) return assignments[i];
 	}

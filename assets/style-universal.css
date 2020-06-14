@@ -542,9 +542,14 @@ select, option {
 	height: 28px;        
 }
 
-.feed-button:hover {
+.feed-button:hover, .feed-button:focus {
 	background-color: transparent;
 	filter: brightness(.64);
+}
+
+.feed-button:active {
+	background-color: transparent;
+	filter:brightness(.5);
 }
 
 .completion-text {

@@ -24,7 +24,7 @@ var mouse_up_cancel_drag = function(e) {
 // Event handler for when the mouse leaves an object, beginning the drag
 var mouse_out_begin_drag = function(e) {
 	elm = e.target;
-	if (elm.tagName == "LABEL") {	// this is a checklist label, so move the li instead of defaulting to the label element
+	if (elm.tagName == "LABEL" || elm.tagName == "SPAN") {	// this is a checklist label, so move the li instead of defaulting to the label element
 		elm = e.target.parentNode;
 		e.target.removeEventListener("mouseup", mouse_up_cancel_drag);
 		e.target.removeEventListener("mouseout", mouse_out_begin_drag);
@@ -44,7 +44,7 @@ var mouse_out_begin_drag = function(e) {
 	elm.addEventListener("mouseup", mouse_up_end_dragging);
 	
 	// Calculate bounding box boundaries for all elements EXCEPT this one and dump them into boundingBoxes array
-	var allElements = document.getElementsByClassName("checklist-li");
+	var allElements = allElements = elm.parentNode.childNodes;
 	var someElements = [];
 	for (var i = 0; i < allElements.length; i ++) {
 		if (!allElements[i].classList.contains("transit")) someElements.push(allElements[i]);
@@ -122,7 +122,7 @@ function check_mouse_inside_bounding_boxes(x, y) {
 // Processing for moving a checklist item
 function move_checklist_item(item, target) {
 	if (target != null) {
-		var assignment = find_assignment_by_id(currentClass.assignments, item.getAttribute("aid"));		// TODO THIS WILL NOT WORK IN A UNIVERSAL CLASS VIEW! NEEDS A REFERENCE TO CORRELATING CLASS!
+		var assignment = find_assignment_by_id(item.getAttribute("aid"));
 		if (assignment != null) {
 			var itemSlot = item.getAttribute("slot");
 			var targetSlot = target.getAttribute("slot");
