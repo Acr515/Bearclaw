@@ -235,17 +235,21 @@ class Checklist {
 	}
 }
 
+// Assigns a class object from a JSON parse its methods in order to be used as a class object again
 function set_protos(obj) {
 	if (typeof obj !== 'object' || obj === null) return;
 	if (Object.keys(obj).length > 0) for (var key in obj) {
-		if (typeof obj[key] === 'object') setTimeout(function() {
-			set_protos(obj[key])
-		}, 0);
+		if (typeof obj[key] === 'object') {
+			set_protos(obj[key]);
+		} else if (typeof obj[key] === 'string' && isIsoDate(obj[key])) {
+			obj[key] = new Date(obj[key]);
+		}
 	}
 	if (obj.jsClassName !== undefined) obj.__proto__ = (new (get_class_from_string(obj.jsClassName))).__proto__;
 	return;
 }
-	
+
+// Returns a class from a string in order to reconstruct an object's methods
 function get_class_from_string(str) {
 	switch (str) {
 		case "Class": return Class;
@@ -258,11 +262,16 @@ function get_class_from_string(str) {
 	}
 }
 
+// Checks if a value is a date
+function isIsoDate(str) {
+  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false; else return true;
+}
+
 // Reconstructs objects and loads them into memory
 function load_data() {
 	classes = JSON.parse(localStorage.classes);
-	set_protos(classes);
-	reconstruct_data();
+	set_protos(classes[0]);
+	setTimeout(function() {reconstruct_data();}, 100);
 }
 
 // Deconstructs objects and saves them into memory
