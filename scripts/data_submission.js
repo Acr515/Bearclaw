@@ -115,9 +115,23 @@ function delete_class(course) {
 
 // Sets an assignment complete or incomplete based on the value of its checkbox. Updates the feed with completion information
 function toggle_assignment_complete(event) {
-	var assignment = find_assignment_by_id(currentClass.assignments, event.target.getAttribute("aid"));
+	var assignment = find_assignment_by_id(event.target.getAttribute("aid"));
 	assignment.finished = event.target.checked;
 	react_to_assignment_status(assignment, null);
+}
+
+// Adds a checklist item to an assignment
+function submit_checklist_item(event) {
+	var assignment = find_assignment_by_id(event.target.parentElement.parentElement.getAttribute("aid"));
+	assignment.checklist.addEntry(document.getElementById("input-checklist-name").value);
+	// Locate the right checklist element to update
+	var thisChecklist = null;
+	var allChecklists = document.querySelectorAll(".assignment-checklist");
+	for (var i = 0; i < allChecklists.length; i ++) {
+		if (allChecklists[i].getAttribute("aid") == assignment.getID()) thisChecklist = allChecklists[i];
+	}
+	render_checklist(assignment, thisChecklist.parentElement);
+	destroy_dialog("dialog-checklist", true);
 }
 
 // If an assignment is overdue, changes feed prompt. Overriden if assignment is completed

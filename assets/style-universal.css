@@ -178,6 +178,14 @@ button {
 	max-width: 450px;
 }
 
+#dialog-checklist {
+	min-height: 200px;
+	height: auto;
+	min-width: 360px;
+	width: 60%;
+	max-width: 510px;
+}
+
 #dialog-schedule {
 	min-width: 590px;
 	width: 60%;

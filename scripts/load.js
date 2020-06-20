@@ -315,6 +315,11 @@ var currentClass = undefined;	// The current class object that is being focused 
 var currentView = 0;			// The current view (0 = overview feed, 1 = calendar view, 2 = specific class view)
 
 document.getElementById("class-options").style.visibility = "hidden";	// Workaround
+document.getElementById("input-checklist-name").addEventListener("keyup", function(event) {
+	if (event.keyCode == 13) {
+		document.getElementById("new-checklist-submit").click();
+	}
+});
 
 // Load data from localStorage
 if (localStorage.classes !== undefined && localStorage.classes != "") {

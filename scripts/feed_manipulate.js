@@ -139,6 +139,7 @@ function render_checklist(assignment, parent) {
 	
 	var checklistDiv = document.createElement("div");
 	checklistDiv.classList.add("assignment-checklist");
+	checklistDiv.setAttribute("aid", assignment.getID());
 	parent.insertBefore(checklistDiv, parent.firstChild);
 	var header = document.createElement("span");
 	header.classList.add("bold");
@@ -180,9 +181,7 @@ function render_checklist(assignment, parent) {
 	addEntry.setAttribute("slot", -1);
 	addEntryText.classList.add("checklist-item", "checklist-add-item");
 	addEntryText.innerHTML = "Add item...";
-	addEntry.addEventListener("click", function() {
-
-	});
+	addEntry.addEventListener("click", () => create_checklist_item_dialog(assignment.getID()));
 	ul.appendChild(addEntry);
 	checklistDiv.appendChild(ul);
 }

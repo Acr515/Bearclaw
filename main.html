@@ -148,7 +148,16 @@
 					<button class="form-button" onclick="destroy_dialog('dialog-confirmation', true)">No</button>
 				</div>
 			</div>
-			
+			<div class="overlay-dialog" id="dialog-checklist">
+				<h2>New checklist item</h2>
+				<div style="text-align: center">
+					<label for="input-checklist-name" style="margin-right: 16px;">Name</label>
+					<input id="input-checklist-name" name="input-checklist-name" class="type-input" size="28"/>
+					<br>
+					<button class="form-button" id="new-checklist-submit" onclick="submit_checklist_item(event)">Submit</button>
+					<button class="form-button" onclick="destroy_dialog('dialog-checklist', true)">Cancel</button>
+				</div>
+			</div>
 		</div>
 
 		<script src="scripts/dialog_boxes.js" type="text/javascript"></script>

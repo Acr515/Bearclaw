@@ -141,6 +141,10 @@ function create_all_restore_confirmation() {
 	if (!showDialog) create_dialog("dialog-confirmation");
 }
 
+function create_checklist_item_dialog(this_aid) {
+	if (!showDialog) create_dialog("dialog-checklist").setAttribute("aid", this_aid);
+}
+
 function create_dialog(type) {
 	showDialog = true;
 	var overlay = document.getElementById("app-overlay");
@@ -153,6 +157,7 @@ function create_dialog(type) {
 		box.style.transform = "translate(-50%, -50%)";
 		overlay.style.opacity = "1";
 	}, 50);
+	return box;
 }
 
 function destroy_dialog(type, clearFormControls) {
@@ -196,6 +201,9 @@ function destroy_dialog(type, clearFormControls) {
 			if (type == "dialog-confirmation") {
 				document.getElementById("button-confirm-action").removeEventListener("click");
 				document.getElementById("dialog-confirmation-text").innerHTML = "";
+			}
+			if (type == "dialog-checklist") {
+				document.getElementById("input-checklist-name").value = "";
 			}
 		}
 	}, 300);
