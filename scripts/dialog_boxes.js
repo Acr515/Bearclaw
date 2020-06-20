@@ -45,6 +45,7 @@ function create_new_assignment_dialog() {
 
 function create_schedule_dialog(course) {
 	if (!showDialog && course.hasDateRange()) {
+		document.getElementById("schedule-form-error").innerHTML = "";
 		schedule_clear_units();
 		if (!course.schedule.isEmpty()) {
 			var form = document.getElementById("schedule-form").elements;
@@ -202,8 +203,12 @@ function destroy_dialog(type, clearFormControls) {
 				document.getElementById("button-confirm-action").removeEventListener("click");
 				document.getElementById("dialog-confirmation-text").innerHTML = "";
 			}
+			if (type == "dialog-schedule") {
+				document.getElementById("schedule-form-error").innerHTML = ""
+			}
 			if (type == "dialog-checklist") {
 				document.getElementById("input-checklist-name").value = "";
+				document.getElementById("checklist-form-error").innerHTML = "";
 			}
 		}
 	}, 300);

@@ -122,16 +122,28 @@ function toggle_assignment_complete(event) {
 
 // Adds a checklist item to an assignment
 function submit_checklist_item(event) {
-	var assignment = find_assignment_by_id(event.target.parentElement.parentElement.getAttribute("aid"));
-	assignment.checklist.addEntry(document.getElementById("input-checklist-name").value);
-	// Locate the right checklist element to update
-	var thisChecklist = null;
-	var allChecklists = document.querySelectorAll(".assignment-checklist");
-	for (var i = 0; i < allChecklists.length; i ++) {
-		if (allChecklists[i].getAttribute("aid") == assignment.getID()) thisChecklist = allChecklists[i];
+	try {
+		var assignment = null;
+		assignment = find_assignment_by_id(event.target.parentElement.parentElement.getAttribute("aid"));
+		if (assignment == null) {
+			throw "For some reason, the assignment wasn't found. Refresh the window and try again.";
+		}
+		if (document.getElementById("input-checklist-name").value == "") {
+			throw "Your checklist item cannot be empty.";
+		}
+		assignment.checklist.addEntry(document.getElementById("input-checklist-name").value);
+		// Locate the right checklist element to update
+		var thisChecklist = null;
+		var allChecklists = document.querySelectorAll(".assignment-checklist");
+		for (var i = 0; i < allChecklists.length; i ++) {
+			if (allChecklists[i].getAttribute("aid") == assignment.getID()) thisChecklist = allChecklists[i];
+		}
+		render_checklist(assignment, thisChecklist.parentElement);
+		destroy_dialog("dialog-checklist", true);
 	}
-	render_checklist(assignment, thisChecklist.parentElement);
-	destroy_dialog("dialog-checklist", true);
+	catch (err) {
+		document.getElementById("checklist-form-error").innerHTML = err;
+	}
 }
 
 // If an assignment is overdue, changes feed prompt. Overriden if assignment is completed
