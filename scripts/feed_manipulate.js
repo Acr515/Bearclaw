@@ -47,9 +47,12 @@ function feed_add_assignment(assignment, feed, id) {
 	feedItem.appendChild(checkbox);
 
 	// Create edit button
-	// TODO give this button functionality
 	var editButton = document.createElement("button");
 	editButton.classList.add("form-button", "feed-button");
+	editButton.addEventListener("click", () => {
+		create_edit_assignment_dialog(assignment);
+		currentEditAssignment = assignment;
+	});
 	feedItem.appendChild(editButton);
 
 	// Create assignment name

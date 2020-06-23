@@ -310,9 +310,10 @@ function reconstruct_data() {
 }
 
 
-var classes = [];				// List of all classes, stems out further with all assignments, checklists, and schedules
-var currentClass = undefined;	// The current class object that is being focused on, if any
-var currentView = 0;			// The current view (0 = overview feed, 1 = calendar view, 2 = specific class view)
+var classes = [];						// List of all classes, stems out further with all assignments, checklists, and schedules
+var currentClass = undefined;			// The current class object that is being focused on, if any
+var currentEditAssignment = undefined;	// A reference to the current assignment that is being edited, if any
+var currentView = 0;					// The current view (0 = overview feed, 1 = calendar view, 2 = specific class view)
 
 document.getElementById("class-options").style.visibility = "hidden";	// Workaround
 document.getElementById("input-checklist-name").addEventListener("keyup", function(event) {

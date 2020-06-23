@@ -43,7 +43,9 @@ function submit_new_class() {
 
 function submit_new_assignment() {
 	var form = document.getElementById("new-assignment-form").elements;
+	var isEditing = document.querySelector("#dialog-new-assignment h2").innerHTML == "Edit an assignment";
 	try {
+		if (isEditing && currentEditAssignment === undefined) throw "Something went wrong when trying to edit your assignment. Please close this dialog box and try again.";
 		if (form.namedItem("assignment-name").value == "") throw "Your assignment must have a name.";
 		if (form.namedItem("assignment-due-date").value == "") throw "Your assignment must have a due date.";
 		
@@ -54,7 +56,12 @@ function submit_new_assignment() {
 		dueDate.setMinutes(time.substr(3, 2));
 
 		// Submit the assignment to the class object
-		currentClass.addAssignment(new Assignment(generateID(), form.namedItem("assignment-name").value, dueDate, form.namedItem("assignment-description").value, form.namedItem("assignment-link").value, currentClass));
+		if (!isEditing) currentClass.addAssignment(new Assignment(generateID(), form.namedItem("assignment-name").value, dueDate, form.namedItem("assignment-description").value, form.namedItem("assignment-link").value, currentClass)); else {
+			currentEditAssignment.name = form.namedItem("assignment-name").value;
+			currentEditAssignment.dueDate = dueDate;
+			currentEditAssignment.link = form.namedItem("assignment-link").value;
+			currentEditAssignment.description = form.namedItem("assignment-description").value;
+		}
 		
 		// Exit the dialog box, sort the new feed, and update the feed
 		sort_class_assignments(currentClass.assignments);

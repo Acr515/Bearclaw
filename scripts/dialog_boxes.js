@@ -43,6 +43,30 @@ function create_new_assignment_dialog() {
 	if (!showDialog) create_dialog("dialog-new-assignment");
 }
 
+function create_edit_assignment_dialog(assignment) {
+	if (!showDialog) {
+		document.querySelector("#dialog-new-assignment h2").innerHTML = "Edit an assignment";
+		document.querySelector("#new-assignment-form fieldset .form-button").value = "Update";
+		
+		// Prefill form data
+		var data = document.getElementById("new-assignment-form").elements;
+		data.namedItem("assignment-name").value = assignment.name;
+		
+		// Extract date string from assignment
+		var dueMonth = assignment.getDay().getMonth() + 1;
+		if (dueMonth < 10) dueMonth = "0" + dueMonth;
+		var dueDay = assignment.getDay().getDate();
+		if (dueDay < 10) dueDay = "0" + dueDay;
+		
+		data.namedItem("assignment-due-date").value = assignment.getDay().getFullYear() + "-" + dueMonth + "-" + dueDay;
+		data.namedItem("assignment-due-time").value = assignment.getDay().getHours() + ":" + assignment.getDay().getMinutes();
+		data.namedItem("assignment-link").value = assignment.link;
+		data.namedItem("assignment-description").value = assignment.description;
+		
+		create_dialog("dialog-new-assignment");
+	}
+}
+
 function create_schedule_dialog(course) {
 	if (!showDialog && course.hasDateRange()) {
 		document.getElementById("schedule-form-error").innerHTML = "";
