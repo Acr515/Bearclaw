@@ -32,19 +32,32 @@ function update_class_sidebar() {
 function update_class_overview() {
 	document.getElementById("class-overview-title").innerHTML = currentClass.getCourseName();
 	document.getElementById("class-feed").innerHTML = "";
+	document.getElementById("class-feed").scrollTop = 0;
 	
 	// Compile and sort all relevant elements
 	var elements = currentClass.assignments.concat(currentClass.schedule.classTimes);
+	elements.push({
+		getType: function() {
+			return "today";
+		},
+		getDay: function() {
+			return new Date();
+		}
+	});
 	sort_time_based_instances(elements);
 	
+	var today = undefined;
 	for (var i = 0; i < elements.length; i ++) {
 		var element = elements[i];
 		if (element.getType() == "assignment") {
 			feed_add_assignment(elements[i], document.getElementById("class-feed"), i);
 		} else if (element.getType() == "class-period") {
 			if (!element.hidden) feed_add_class_period(elements[i], document.getElementById("class-feed"), i);
+		} else if (element.getType() == "today") {
+			today = feed_add_today(document.getElementById("class-feed", i));
 		}
 	}
+	document.getElementById("class-overview").scrollTop = Math.max(0, today.offsetTop - (window.innerHeight / 2));
 }
 
 // This short function is the event handler for clicking the collapse button

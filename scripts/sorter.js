@@ -18,6 +18,9 @@ function sort_time_based_instances(array) {
 		if (a.getDay() < b.getDay()) return -1;
 			else if (a.getDay() > b.getDay()) return 1;
 		else {
+			// Tiebreakers
+			if (a.getType() == "today") return -1;
+			if (b.getType() == "today") return -1;
 			if (a.getType() == "assignment" && b.getType() == "class-period") return -1;
 			else if (a.getType() == "class-period" && b.getType() == "assignment") return 1;
 			else if (a.getType() == "assignment" && b.getType() == "assignment") {

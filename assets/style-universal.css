@@ -331,7 +331,7 @@ select, option {
 #class-overview {
 	width: 100%;
 	height: 100vh;
-	overflow-y: auto;
+	overflow-y: scroll;
 	overflow-x: hidden;
 }
 
@@ -460,6 +460,25 @@ select, option {
 	margin: 0;
 	padding: 16px;
 	box-sizing: border-box;
+}
+
+.feed-item.feed-today {
+	background-color: rgba(0, 0, 0, .06);
+	border-top: 4px dashed #D5D5D5;
+	border-bottom: 4px dashed #D5D5D5;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.feed-item.feed-today:hover {
+	background-color: rgba(0, 0, 0, .06);
+}
+
+.feed-item.feed-today .feed-today-heading {
+	color: #888;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	font-size: 150%;
 }
 
 .feed-item:hover {

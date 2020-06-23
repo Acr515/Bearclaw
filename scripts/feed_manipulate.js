@@ -1,5 +1,20 @@
 // Adds elements to a feed... mostly this file is just making the update_data.js one smaller and less complicated
 
+// Adds a marker for today to the feed
+function feed_add_today(feed, id) {
+	// Create feed item
+	var feedItem = document.createElement("li");
+	feedItem.id = "feed-item-" + id;
+	feedItem.classList.add("feed-item", "feed-today");
+	feed.appendChild(feedItem);
+	
+	var label = document.createElement("h3");
+	label.innerHTML = "Today";
+	label.classList.add("feed-today-heading");
+	feedItem.appendChild(label);
+	return feedItem;
+}
+
 // Adds a class period to the feed
 function feed_add_class_period(period, feed, id) {
 	// Create feed item
