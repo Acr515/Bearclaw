@@ -40,6 +40,7 @@ function create_edit_class_dialog(course) {
 }
 
 function create_new_assignment_dialog() {
+	document.getElementById("assignment-delete").style.display = "none";
 	if (!showDialog) create_dialog("dialog-new-assignment");
 }
 
@@ -47,6 +48,7 @@ function create_edit_assignment_dialog(assignment) {
 	if (!showDialog) {
 		document.querySelector("#dialog-new-assignment h2").innerHTML = "Edit an assignment";
 		document.querySelector("#new-assignment-form fieldset .form-button").value = "Update";
+		document.getElementById("assignment-delete").style.display = "inline";
 		
 		// Prefill form data
 		var data = document.getElementById("new-assignment-form").elements;
@@ -210,6 +212,7 @@ function destroy_dialog(type, clearFormControls) {
 				// Revert changes made to the box to accomodate editing
 				document.querySelector("#dialog-new-class h2").innerHTML = "Create a class";
 				document.querySelector("#new-class-form fieldset .form-button").value = "Create";
+				document.getElementById("assignment-delete").style.display = "none";
 			}
 			if (type == "dialog-new-assignment") {
 				for (var i = 0; i < document.getElementById("new-assignment-form").elements.length; i ++) {

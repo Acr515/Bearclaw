@@ -120,6 +120,14 @@ function delete_class(course) {
 	update_class_sidebar();
 }
 
+// Deletes an assignment from memory
+function delete_assignment(assignment) {
+	var remove_list = assignment.myClass.assignments;
+	remove_list.splice(remove_list.indexOf(assignment), 1);
+	destroy_dialog('dialog-new-assignment', true);
+	update_class_overview();
+}
+
 // Sets an assignment complete or incomplete based on the value of its checkbox. Updates the feed with completion information
 function toggle_assignment_complete(event) {
 	var assignment = find_assignment_by_id(event.target.getAttribute("aid"));

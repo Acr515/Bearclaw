@@ -279,6 +279,10 @@ input[type="date"], input[type="time"], input[type="color"] {
 	transform: scale(1);
 }
 
+#assignment-delete {
+	display: none;
+}
+
 .input-float-right {
 	float: right;
 	transform: translateY(-12px);
