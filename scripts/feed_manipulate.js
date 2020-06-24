@@ -178,7 +178,7 @@ function render_checklist(assignment, parent) {
 		kill.innerHTML = "&#128473;";
 		kill.classList.add("checklist-remove-item");
 		var remove = function() {
-			assignment.checklist.removeEntry(this.id);
+			this.a.checklist.removeEntry(this.id);
 			render_checklist(this.a, this.p);
 		}.bind({id: i, a: assignment, p: parent});
 		kill.addEventListener("click", remove);
@@ -190,7 +190,12 @@ function render_checklist(assignment, parent) {
 		li.appendChild(label);
 
 		var input = document.createElement("input");
+		var check = function() {
+			this.a.checklist.setFinished(this.id, this.i.checked);
+		}.bind({id: i, i: input, a: assignment});
+		input.addEventListener("change", check);
 		input.type = "checkbox";
+		input.checked = assignment.checklist.finished[i];
 		label.appendChild(input);
 
 		var checkbox = document.createElement("span");

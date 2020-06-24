@@ -209,6 +209,9 @@ class Checklist {
 		this.finished = [];
 		this.jsClassName = "Checklist";
 	}
+	setFinished(slot, val) {
+		this.finished[slot] = val;
+	}
 	addEntry(description) {
 		this.list.push(description);
 		this.finished.push(false);
