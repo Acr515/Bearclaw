@@ -177,6 +177,11 @@ function render_checklist(assignment, parent) {
 		var kill = document.createElement("span");
 		kill.innerHTML = "&#128473;";
 		kill.classList.add("checklist-remove-item");
+		var remove = function() {
+			assignment.checklist.removeEntry(this.id);
+			render_checklist(this.a, this.p);
+		}.bind({id: i, a: assignment, p: parent});
+		kill.addEventListener("click", remove);
 		li.appendChild(kill);
 
 		var label = document.createElement("label");

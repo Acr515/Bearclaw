@@ -762,6 +762,7 @@ select, option {
     height: 20px;
 	text-align: center;
 	cursor: pointer;
+	z-index: 2;
 }
 
 .checklist-remove-item:hover, .checklist-remove-item:focus {
