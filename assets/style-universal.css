@@ -556,7 +556,6 @@ select, option {
 
 .feed-button {
 	float: right;
-	top: 50%;
 	margin: 0 16px;
 	background-color: transparent;
 	background-image: url("../images/icons/edit.png");
@@ -571,6 +570,10 @@ select, option {
 	background-size: contain;
 	width: 28px;
 	height: 28px;        
+}
+
+.hide-button {
+	background-image: url("../images/icons/hidden-eye.png");
 }
 
 .feed-button:hover, .feed-button:focus {

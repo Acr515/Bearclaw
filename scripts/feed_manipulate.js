@@ -23,6 +23,14 @@ function feed_add_class_period(period, feed, id) {
 	feedItem.classList.add("feed-item", "feed-class-period");
 	feed.appendChild(feedItem);
 	
+	// Create hide button
+	var hideButton = document.createElement("button");
+	hideButton.classList.add("form-button", "feed-button", "hide-button");
+	hideButton.addEventListener("click", () => {
+		create_hide_class_confirmation(period);
+	});
+	feedItem.appendChild(hideButton);
+	
 	// Create heading
 	var heading = document.createElement("h3");
 	heading.innerHTML = "Go to class: " + period.myClass.getCourseName();
@@ -35,7 +43,7 @@ function feed_add_class_period(period, feed, id) {
 	
 	// Create pretty colored label
 	var label = create_color_label(period);
-	label.style.bottom = "92px";
+	label.style.bottom = "58px";
 	feedItem.appendChild(label);
 }
 

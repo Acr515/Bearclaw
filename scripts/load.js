@@ -72,7 +72,7 @@ class ClassSchedule {
 				return "???";
 		}
 	}
-	// This method should only be run when a NEW SCHEDULE IS SUBMITTED, OR IF DATES ARE BEING EXPLICITLY RESET
+	// Run this when something in the schedule is changed
 	export(startDate, endDate) {
 		// Delivers an array of ClassTime instances beginning and ending on specified days
 		var refStartDate = new Date(startDate);

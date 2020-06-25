@@ -121,6 +121,18 @@ function schedule_clear_units() {
 	schedule_add_unit();
 }
 
+// Creates a dialog to hide a class period if desired
+function create_hide_class_confirmation(period) {
+	document.getElementById("dialog-confirmation-text").innerHTML = "This will hide this specific class period from all views. It can be restored by navigating into the class options and selecting \"Restore hidden class periods\". Would you like to continue?";
+	document.getElementById("button-confirm-action").onclick = function() {
+		period.hidden = true;
+		//period.myClass.schedule.export(period.myClass.startDate, period.myClass.endDate);
+		update_class_overview();
+		destroy_dialog('dialog-confirmation', true);
+	};
+	if (!showDialog) create_dialog("dialog-confirmation");
+}
+
 function create_warning_dialog(warningText) {
 	document.getElementById("dialog-warning-text").innerHTML = warningText;
 	if (!showDialog) create_dialog("dialog-warning");
