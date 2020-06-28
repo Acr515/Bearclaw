@@ -554,6 +554,27 @@ select, option {
 	opacity: 1;
 }
 
+.feed-link-icon {
+	background-image: url("../images/icons/link.png");
+	filter: brightness(.7);
+	width: 26px;
+	height: 26px;
+	display: inline-block;
+	vertical-align: middle;
+	background-size: contain;
+	margin-left: 4px;
+}
+
+.feed-link {
+	text-decoration: underline;
+	color: #1717BE;
+	transition: color .2s;
+}
+
+.feed-link:hover {
+	color: #5E5BC4;
+}
+
 .feed-button {
 	float: right;
 	margin: 0 16px;

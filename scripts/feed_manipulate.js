@@ -42,8 +42,20 @@ function feed_add_class_period(period, feed, id) {
 	
 	// Create heading
 	var heading = document.createElement("h3");
-	heading.innerHTML = "Go to class: " + period.myClass.getCourseName();
+	heading.innerHTML = "Go to class: ";
+	if (period.link !== undefined && period.link != "") {
+		heading.innerHTML += "<a href='" + period.link + "' target='_blank' class='feed-link'>" + period.myClass.getCourseName() + "</a>";
+	} else {
+		heading.innerHTML += period.myClass.getCourseName();
+	}
 	feedItem.appendChild(heading);
+	
+	// Create link if needed
+	if (period.link !== undefined && period.link != "") {
+		var linkIcon = document.createElement("span");
+		linkIcon.classList.add("feed-link-icon");
+		heading.appendChild(linkIcon);
+	}
 	
 	// Create time
 	var time = document.createElement("h4");
