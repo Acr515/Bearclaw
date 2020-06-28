@@ -48,6 +48,7 @@ function submit_new_assignment() {
 		if (isEditing && currentEditAssignment === undefined) throw "Something went wrong when trying to edit your assignment. Please close this dialog box and try again.";
 		if (form.namedItem("assignment-name").value == "") throw "Your assignment must have a name.";
 		if (form.namedItem("assignment-due-date").value == "") throw "Your assignment must have a due date.";
+		if (form.namedItem("assignment-due-time").value == "") throw "Your assignment must have a due time.";
 		
 		var dueDate = new Date(form.namedItem("assignment-due-date").value);
 		convert_to_local_timezone(dueDate);
@@ -110,6 +111,59 @@ function submit_schedule() {
 	}
 	catch(err) {
 		document.getElementById("schedule-form-error").innerHTML = err;
+	}
+}
+
+function submit_period_edit(period) {
+	var form = document.getElementById("edit-period-form").elements;
+	try {
+		var changesMade = false;
+		
+		// Set start time
+		var oldStartTime = new Date(period.startTime);
+		var time = form.namedItem("period-start-time").value;
+		var startTime = new Date(form.namedItem("period-date").value);
+		convert_to_local_timezone(startTime);
+		startTime.setHours(time.substr(0, 2));
+		startTime.setMinutes(time.substr(3, 2));
+		
+		// Set end time
+		var oldEndTime = new Date(period.endTime);
+		time = form.namedItem("period-end-time").value
+		var endTime = new Date(form.namedItem("period-date").value);
+		convert_to_local_timezone(endTime);
+		endTime.setHours(time.substr(0, 2));
+		endTime.setMinutes(time.substr(3, 2));
+		
+		if (startTime > endTime) throw "Your start time is after your end time.";
+		
+		// Begin setting start and end times since validation has been completed
+		period.startTime.setHours(time.substr(0, 2));
+		period.startTime.setMinutes(time.substr(3, 2));
+		if (!identical_date_time(oldStartTime, startTime)) {
+			changesMade = true;
+			period.startTime = startTime;
+		}
+		period.endTime.setHours(time.substr(0, 2));
+		period.endTime.setMinutes(time.substr(3, 2));
+		if (!identical_date_time(oldEndTime, endTime)) {
+			changesMade = true;
+			period.endTime = endTime;
+		}
+		
+		// Set link
+		if (form.namedItem("period-link").value != period.link) {
+			changesMade = true;
+			period.link = form.namedItem("period-link").value;
+		}
+		
+		if (changesMade) period.modified = true;
+		
+		update_class_overview();
+		destroy_dialog('dialog-edit-period', true);
+	}
+	catch(err) {
+		document.getElementById("edit-period-form-error").innerHTML = err;
 	}
 }
 

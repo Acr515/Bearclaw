@@ -57,3 +57,14 @@ function identical_date_time(date1, date2) {
 function identical_date(date1, date2) {
 	return (date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear());
 }
+
+// Converts a Date object to a time period that would work with an input element
+function convert_time_to_input(date) {
+	var h = date.getHours();
+	var m = date.getMinutes();
+	var hExtraZero = "";
+	var mExtraZero = "";
+	if (h < 10) hExtraZero = "0";
+	if (m < 10) mExtraZero = "0";
+	return hExtraZero + h + ":" + mExtraZero + m;
+}

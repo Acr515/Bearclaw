@@ -31,6 +31,15 @@ function feed_add_class_period(period, feed, id) {
 	});
 	feedItem.appendChild(hideButton);
 	
+	// Create edit button
+	var editButton = document.createElement("button");
+	editButton.classList.add("form-button", "feed-button");
+	editButton.addEventListener("click", () => {
+		create_edit_period_dialog(period);
+	});
+	editButton.style.marginRight = "0";
+	feedItem.appendChild(editButton);
+	
 	// Create heading
 	var heading = document.createElement("h3");
 	heading.innerHTML = "Go to class: " + period.myClass.getCourseName();

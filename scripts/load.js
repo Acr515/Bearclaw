@@ -149,6 +149,7 @@ class ClassTime extends TimeBased {
 		this.endTime = endTime;				// A Date object for the time that this class ends
 		this.hidden = false;				// Whether or not the user has opted to hide this time (i.e. for a break, cancelled class)
 		this.modified = false;				// Whether or not the user has manually adjusted the time on this specific class date
+		this.link = "";						// A link for a web meeting to associate with this class period
 		this.jsClassName = "ClassTime";
 	}
 	getClassName() {
@@ -316,6 +317,7 @@ function reconstruct_data() {
 var classes = [];						// List of all classes, stems out further with all assignments, checklists, and schedules
 var currentClass = undefined;			// The current class object that is being focused on, if any
 var currentEditAssignment = undefined;	// A reference to the current assignment that is being edited, if any
+var currentEditPeriod = undefined;		// A reference to the current class period that is being edited, if any
 var currentView = 0;					// The current view (0 = overview feed, 1 = calendar view, 2 = specific class view)
 
 document.getElementById("class-options").style.visibility = "hidden";	// Workaround

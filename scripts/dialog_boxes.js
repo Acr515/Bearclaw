@@ -61,11 +61,37 @@ function create_edit_assignment_dialog(assignment) {
 		if (dueDay < 10) dueDay = "0" + dueDay;
 		
 		data.namedItem("assignment-due-date").value = assignment.getDay().getFullYear() + "-" + dueMonth + "-" + dueDay;
-		data.namedItem("assignment-due-time").value = assignment.getDay().getHours() + ":" + assignment.getDay().getMinutes();
+		data.namedItem("assignment-due-time").value  = convert_time_to_input(assignment.getDay());
 		data.namedItem("assignment-link").value = assignment.link;
 		data.namedItem("assignment-description").value = assignment.description;
 		
 		create_dialog("dialog-new-assignment");
+	}
+}
+
+function create_edit_period_dialog(period) {
+	if (!showDialog) {
+		// Prefill form data
+		var data = document.getElementById("edit-period-form").elements;
+		
+		// Period date
+		var periodMonth = period.getDay().getMonth() + 1;
+		if (periodMonth < 10) periodMonth = "0" + periodMonth;
+		var periodDay = period.getDay().getDate();
+		if (periodDay < 10) periodDay = "0" + periodDay;
+		
+		data.namedItem("period-date").value = period.getDay().getFullYear() + "-" + periodMonth + "-" + periodDay;
+		
+		// Period start time
+		data.namedItem("period-start-time").value = convert_time_to_input(period.startTime);
+		
+		// Period end time
+		data.namedItem("period-end-time").value = convert_time_to_input(period.endTime);
+		
+		data.namedItem("period-link").value = period.link;
+		
+		currentEditPeriod = period;
+		create_dialog("dialog-edit-period");
 	}
 }
 

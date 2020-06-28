@@ -130,6 +130,29 @@
 					<p class="form-error" id="schedule-form-error"></p>
 				</form>
 			</div>
+			<div class="overlay-dialog" id="dialog-edit-period">
+				<h2>Edit class period</h2>
+				<form id="edit-period-form" action="" onsubmit="return false">
+					<input type="date" name="period-date" class="input-float-right type-input"/>
+					<label for="period-date">Period Date</label><br>
+					
+					<input type="time" name="period-start-time" class="input-float-right type-input"/>
+					<label for="period-start-time">Start Time</label><br>
+					
+					<input type="time" name="period-end-time" class="input-float-right type-input"/>
+					<label for="period-end-time">End Time</label><br>
+					
+					<input type="url" name="period-link" class="input-float-right type-input" size="32"/>
+					<label for="period-link">Period Link</label><br>
+					
+					<fieldset style="text-align: center">
+						<input class="form-button" type="button" value="Submit" onclick="submit_period_edit(currentEditPeriod)"/>
+						<input class="form-button" type="button" value="Cancel" onclick="destroy_dialog('dialog-edit-period', true)"/>
+					</fieldset>
+					
+					<p class="form-error" id="edit-period-form-error"></p>
+				</form>
+			</div>
 			<div class="overlay-dialog" id="dialog-warning">
 				<h2>Warning</h2>
 				<div style="text-align: center">
