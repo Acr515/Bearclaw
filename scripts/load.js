@@ -120,7 +120,8 @@ class ClassSchedule {
 		// Concatenate arrays
 		this.classTimes = this.classTimes.concat(referenceList);
 	}
-	deleteAll() {
+	// Flushes out all stored class period times
+	flush() {
 		this.classTimes = [];
 	}
 }

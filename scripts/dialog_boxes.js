@@ -184,7 +184,6 @@ function create_hidden_restore_confirmation() {
 		for (var i = 0; i < schedule.length; i ++) {
 			schedule[i].hidden = false;
 		}
-		currentClass.schedule.export();
 		update_class_overview();
 		destroy_dialog('dialog-confirmation', true);
 	};
@@ -198,8 +197,9 @@ function create_all_restore_confirmation() {
 	}
 	document.getElementById("dialog-confirmation-text").innerHTML = "This will unhide every class period that you previously hid as well as reverse any changes you applied to any specific class periods. Are you sure you wish to continue?";
 	document.getElementById("button-confirm-action").onclick = function() {
-		currentClass.schedule.clear();
-		currentClass.schedule.export();
+		currentClass.schedule.flush();
+		console.log(currentClass.schedule.classDays);
+		currentClass.schedule.export(currentClass.startDate, currentClass.endDate);
 		update_class_overview();
 		destroy_dialog('dialog-confirmation', true);
 	};

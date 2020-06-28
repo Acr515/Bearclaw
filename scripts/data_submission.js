@@ -86,7 +86,7 @@ function submit_schedule() {
 			if (startTime == "" && endTime == "" && form.namedItem("day-" + thisid).value == "" && units.length == 1) {
 				// User is deleting their schedule
 				currentClass.schedule.clear();
-				currentClass.schedule.deleteAll();
+				currentClass.schedule.flush();
 				update_class_overview();
 				destroy_dialog('dialog-schedule', true);
 				return;
