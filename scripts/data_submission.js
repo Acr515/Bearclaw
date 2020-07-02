@@ -65,8 +65,8 @@ function submit_new_assignment() {
 		}
 		
 		// Exit the dialog box, sort the new feed, and update the feed
-		sort_class_assignments(currentClass.assignments);
-		update_class_overview();
+		//sort_class_assignments(currentClass.assignments); // not sure yet if this is actually necessary
+		update();
 		destroy_dialog("dialog-new-assignment", true);
 	}
 	catch(err) {
@@ -159,7 +159,7 @@ function submit_period_edit(period) {
 		
 		if (changesMade) period.modified = true;
 		
-		update_class_overview();
+		update();
 		destroy_dialog('dialog-edit-period', true);
 	}
 	catch(err) {
@@ -179,7 +179,7 @@ function delete_assignment(assignment) {
 	var remove_list = assignment.myClass.assignments;
 	remove_list.splice(remove_list.indexOf(assignment), 1);
 	destroy_dialog('dialog-new-assignment', true);
-	update_class_overview();
+	update();
 }
 
 // Sets an assignment complete or incomplete based on the value of its checkbox. Updates the feed with completion information

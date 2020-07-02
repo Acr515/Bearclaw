@@ -329,17 +329,17 @@ select, option {
 	margin: 6px;
 }
 
-/* INDIVIDUAL CLASS VIEW */
+/* INDIVIDUAL CLASS VIEW/FULL FEED VIEW */
 
 
-#class-overview {
+#class-overview, #full-overview {
 	width: 100%;
 	height: 100vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
 
-#class-overview-header {
+#class-overview-header, #full-overview-header {
 	width: 100%;
 	height: 100px;
 	background-color: #eeeeee;
@@ -349,23 +349,45 @@ select, option {
 	z-index: 3;
 }
 
-#class-overview-header h1 {
+#class-overview-header h1, #full-overview-header h1 {
 	margin: 0;
 	line-height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-#class-overview-body {
+#class-overview-body, #full-overview-body {
 	width: 100%;
 	padding: 0;
 	margin: 0;
 }
 
 #class-edit-tools {
-	margin: 30px 48px 0 32px;
+	margin: 30px 48px 0 18px;
 	display: block;
 	float: right;
 	background-color: transparent;
 	cursor: pointer;
+}
+
+#class-back-button {
+	float: left;
+	padding: 2px;
+	text-align: center;
+	margin-top: 32px;
+	font-size: 14pt;
+	margin-right: 8px;
+	margin-left: 0;
+	background-color: transparent;
+}
+
+#class-back-button:hover, #class-back-button:focus {
+	color: #777;
+}
+
+#class-back-button:active {
+	color: #333;
 }
 
 .tridot-display {
@@ -438,7 +460,7 @@ select, option {
 	color: #515151;
 }
 
-#class-feed {
+#class-feed, #full-feed {
 	padding: 0;
 	margin: 0;
 	width: 100%;

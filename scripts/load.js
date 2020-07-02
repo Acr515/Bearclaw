@@ -321,6 +321,9 @@ var currentEditAssignment = undefined;	// A reference to the current assignment 
 var currentEditPeriod = undefined;		// A reference to the current class period that is being edited, if any
 var currentView = 0;					// The current view (0 = overview feed, 1 = calendar view, 2 = specific class view)
 
+// Disable display of all other views
+document.getElementById("class-overview").style.display = "none";
+
 document.getElementById("class-options").style.visibility = "hidden";	// Workaround
 document.getElementById("input-checklist-name").addEventListener("keyup", function(event) {
 	if (event.keyCode == 13) {
@@ -339,4 +342,5 @@ if (localStorage.classes !== undefined && localStorage.classes != "") {
 // First-time renders of sidebar, others
 setTimeout(function() {
 	update_class_sidebar();
-}, 250);
+	update_full_overview();
+}, 300);

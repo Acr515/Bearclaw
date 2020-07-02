@@ -13,8 +13,20 @@
 		<div id="app-wrapper">
 			<div id="main-view">
 				<!-- All interfacing and display info goes here- this is the main view -->
+				<div id="full-overview">
+					<div id="full-overview-header">
+						<h1 id="full-overview-title">Overview</h1>
+					</div>
+					<div id="full-overview-body">
+						<ul id="full-feed">
+							<!-- Assignments and class periods go here -->
+						</ul>
+					</div>
+				</div>
+				
 				<div id="class-overview">
 					<div id="class-overview-header">
+						<button id="class-back-button" class="form-button" onclick="check_out_full_feed();">&#9204;Back</button>
 						<button id="class-edit-tools" class="form-button" onclick="toggle_class_overview_tools();">
 							<span class="tridot-display"></span>
 							<span class="tridot-display"></span>
@@ -38,7 +50,6 @@
 							<!-- Assignments and class periods go here -->
 						</ul>
 					</div>
-					
 				</div>
 			</div>
 

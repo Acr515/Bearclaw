@@ -299,7 +299,6 @@ function destroy_class_overview_tools() {
 
 function toggle_feed_item_expansion(feedItem) {
 	var item = document.querySelector("#" + feedItem + "-expansion.feed-expansion");
-	var arrow = document.querySelector("#" + feedItem + "-expansion.feed-expansion");
 	item.classList.toggle("collapsed");
 }
 
