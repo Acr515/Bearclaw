@@ -123,3 +123,72 @@ function hexToRgb(hex) {
 		b: parseInt(result[3], 16)
 	} : null;
 }
+
+// Opens up the settings menu
+function settings() {
+	document.getElementById("class-overview").style.display = "none";
+	document.getElementById("full-overview").style.display = "none";
+	document.getElementById("settings").style.display = "block";
+	settings_switch_tab("general");
+	populate_settings();
+}
+
+// Switches settings tabs
+function settings_switch_tab(tab) {
+	document.getElementById("settings-content-general").style.display = (tab == "general" ? "block" : "none");
+	document.getElementById("settings-content-about").style.display = (tab == "about" ? "block" : "none");
+	document.getElementById("settings-content-theme").style.display = (tab == "theme" ? "block" : "none");
+	
+	document.getElementById("settings-tab-general").classList.remove("tab-open");
+	document.getElementById("settings-tab-about").classList.remove("tab-open");
+	document.getElementById("settings-tab-theme").classList.remove("tab-open");
+	document.getElementById("settings-tab-" + tab).classList.add("tab-open");
+}
+
+// Flips a settings switch
+function settings_flip_switch(e) {
+	e.target.classList.toggle("on");
+	if (e.target.classList.contains("switch-container")) e.target.firstElementChild.classList.toggle("on"); else e.target.parentElement.classList.toggle("on");
+	save_settings();
+}
+
+// Leaves the settings menu using the back button
+function leave_settings() {
+	save_settings();
+	document.getElementById("class-overview").style.display = "none";
+	document.getElementById("full-overview").style.display = "block";
+	document.getElementById("settings").style.display = "none";
+}
+
+// Write to options variable and save data
+function save_settings() {
+	var form = document.getElementById("settings-form-general").querySelectorAll(".input-float-right, div.switch-container");
+	for (var i = 0; i < form.length; i ++) {
+		let elm = form[i];
+		if (elm.classList.contains("switch-container")) {
+			options[elm.getAttribute("name")] = elm.classList.contains("on");
+		} else {
+			options[elm.getAttribute("name")] = elm.value;
+		}
+	}
+	save_options();
+}
+
+// Populates settings field with settings data
+function populate_settings() {
+	var form = document.getElementById("settings-form-general").querySelectorAll(".input-float-right, div.switch-container");
+	for (var i = 0; i < form.length; i ++) {
+		let elm = form[i];
+		if (elm.classList.contains("switch-container")) {
+			if (options[elm.getAttribute("name")]) {
+				elm.classList.add("on"); 
+				elm.firstElementChild.classList.add("on");
+			} else {
+				elm.classList.remove("on");
+				elm.firstElementChild.classList.remove("on");
+			}
+		} else {
+			elm.value = options[elm.getAttribute("name")];
+		}
+	}
+}

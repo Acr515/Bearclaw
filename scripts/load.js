@@ -314,8 +314,33 @@ function reconstruct_data() {
 	}
 }
 
+// Loads options data from localStorage
+function load_options() {
+	options = JSON.parse(localStorage.options);
+}
 
+// Saves options data to localStorage
+function save_options() {
+	localStorage.options = JSON.stringify(options);
+}
+
+// Resets options to their default
+function reset_options() {
+	options = {
+		theme: "universal",
+		defaultDueTime: "23:59",
+		autoDeleteAssignments: "never",		// never, one-day, one-week, one-month
+		autoDeleteLateAssignments: false,
+		showPeriodsFrom: "class-start", 	// today, one-day, one-week, class-start
+		showPeriodsTo: "class-end",			// tomorrow, three-days, one-week, one-month, class-end
+		scrollToToday: true,
+		highContrastFocus: false
+	}
+}
+
+// Construct global variables
 var classes = [];						// List of all classes, stems out further with all assignments, checklists, and schedules
+var options = {};						// Object containing all settings adjusted by the user
 var currentClass = undefined;			// The current class object that is being focused on, if any
 var currentEditAssignment = undefined;	// A reference to the current assignment that is being edited, if any
 var currentEditPeriod = undefined;		// A reference to the current class period that is being edited, if any
@@ -323,6 +348,7 @@ var currentView = 0;					// The current view (0 = overview feed, 1 = calendar vi
 
 // Disable display of all other views
 document.getElementById("class-overview").style.display = "none";
+document.getElementById("settings").style.display = "none";
 
 document.getElementById("class-options").style.visibility = "hidden";	// Workaround
 document.getElementById("input-checklist-name").addEventListener("keyup", function(event) {
@@ -337,6 +363,12 @@ if (localStorage.classes !== undefined && localStorage.classes != "") {
 	set_protos(classes);
 } else {
 	localStorage.classes = "";
+}
+if (localStorage.options !== undefined && localStorage.options != "") {
+	load_options();
+} else {
+	reset_options();
+	save_options();
 }
 
 // First-time renders of sidebar, others

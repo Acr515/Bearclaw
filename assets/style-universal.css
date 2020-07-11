@@ -38,6 +38,12 @@ h1, h2 {
 	font-style: normal;
 }
 
+h3 {
+	font-family: laca-text, sans-serif;
+	font-weight: 300;
+	font-style: normal;
+}
+
 button {
 	font-family: laca-text, sans-serif;
 	font-weight: 200;
@@ -128,7 +134,7 @@ button {
 }
 
 #classes-sidebar-list li:hover, #classes-sidebar-list li:focus {
-	background-color: #bbbbbb;
+	background-color: rgba(0, 0, 0, .2);
 	cursor: pointer;
 }
 
@@ -262,6 +268,15 @@ input[type="date"], input[type="time"], input[type="color"] {
 	cursor: pointer;
 }
 
+.form-button.danger {
+	color: #BF090C;
+	border: 2px solid #BF090C;
+}
+
+.form-button.danger:hover, .form-button.danger:focus {
+	border: 2px solid #BF090C;
+}
+
 .form-button:hover, .form-button:focus {
 	background-color: #bbbbbb;
 	transform: scale(1);
@@ -332,14 +347,14 @@ select, option {
 /* INDIVIDUAL CLASS VIEW/FULL FEED VIEW */
 
 
-#class-overview, #full-overview {
+#class-overview, #full-overview, #settings-header {
 	width: 100%;
 	height: 100vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
 
-#class-overview-header, #full-overview-header {
+#class-overview-header, #full-overview-header, #settings-header {
 	width: 100%;
 	height: 100px;
 	background-color: #eeeeee;
@@ -349,7 +364,7 @@ select, option {
 	z-index: 3;
 }
 
-#class-overview-header h1, #full-overview-header h1 {
+#class-overview-header h1, #full-overview-header h1, #settings-header h1 {
 	margin: 0;
 	line-height: 100px;
 	overflow: hidden;
@@ -371,7 +386,7 @@ select, option {
 	cursor: pointer;
 }
 
-#class-back-button {
+.class-back-button {
 	float: left;
 	padding: 2px;
 	text-align: center;
@@ -379,15 +394,36 @@ select, option {
 	font-size: 14pt;
 	margin-right: 8px;
 	margin-left: 0;
-	background-color: transparent;
+	background-color: transparent !important;
 }
 
-#class-back-button:hover, #class-back-button:focus {
+.class-back-button:hover, .class-back-button:focus {
 	color: #777;
 }
 
-#class-back-button:active {
+.class-back-button:active {
 	color: #333;
+}
+
+#full-settings-button {
+	float: right;
+	padding: 2px;
+	background-image: url("../images/icons/gear.png");
+	background-color: transparent;
+	width: 45px;
+	height: 45px;
+	margin-top: 22px;
+}
+
+#full-calendar-button {
+	float: right;
+	padding: 2px;
+	background-image: url("../images/icons/calendar.png");
+	background-color: transparent;
+	width: 45px;
+	height: 40px;
+	margin-top: 26px;
+	margin-right: 52px;
 }
 
 .tridot-display {
@@ -587,7 +623,7 @@ select, option {
 	margin-left: 4px;
 }
 
-.feed-link {
+.feed-link, .feed-link:visited {
 	text-decoration: underline;
 	color: #1717BE;
 	transition: color .2s;
@@ -823,6 +859,87 @@ select, option {
 	height: 0;
 	padding: 0;
 	background-color: #5FB7FF;
+}
+
+
+/* Settings Menu Styles */
+
+
+.settings-tab {
+    float: right;
+    position: relative;
+    top: 54px;
+    padding: 16px 20px;
+    font-size: 14pt;
+    border: 2px solid #AAA;
+    margin-right: 10px;
+	user-select: none;
+	cursor: pointer;
+}
+
+.settings-tab.tab-open {
+	background-color: white;
+	font-weight: 400;
+}
+
+.settings-tab:active:not(.tab-open) {
+	background-color: rgba(0,0,0,.2);
+}
+
+.settings-module {
+	padding: 30px;
+	max-width: 600px;
+}
+
+#settings-content-general {
+    overflow-y: scroll;
+    height: calc(100vh - 100px); /* The height of the navbar subtracted from the viewport height*/
+}
+
+#settings-form-general h2 {
+	margin-top: 40px;
+}
+
+.form-field {
+	margin-bottom: 32px;
+	width: 100%;
+}
+
+.switch-container {
+	background-color: #888;
+	width: 60px;
+	height: 30px;
+	border-radius: 30px;
+	overflow: hidden;
+	transition: background-color .1s ease;
+	cursor: pointer;
+}
+
+.switch-container.on {
+	background-color: #E12F32;
+}
+
+.switch-circle {
+	width: 26px;
+	height: 26px;
+	border-radius: 30px;
+	background-color: white;
+	margin-left: 2px;
+	margin-top: 2px;
+	transition: margin-left .1s ease;
+}
+
+.switch-container:hover .switch-circle {
+	background-color: #DDD;
+}
+
+.switch-circle.on {
+	margin-left: 32px;
+}
+
+#settings-content-about {
+	padding: 30px 10%;
+	text-align: center;
 }
 
 /* This item must be at the bottom of the style sheet so that it overrides all other items */
