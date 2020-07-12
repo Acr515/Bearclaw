@@ -31,13 +31,23 @@ function update_class_sidebar() {
 // Runs an update depending on what mode that the view is in
 function update(scrollPos) {
 	// TODO scrollPos should be used to send the scroll position to the item that just got changed if applicable
-	if (currentView == 0) update_full_overview(); else if (currentView == 2) update_class_overview();
+	if (currentView == 0) update_full_overview(); else if (currentView == 1) update_calendar(); else if(currentView == 2) update_class_overview();
 }
 
 // Flushes the contents of every view
 function flush_feeds() {
 	document.getElementById("class-feed").innerHTML = "";
 	document.getElementById("full-feed").innerHTML = "";
+	document.getElementById("calendar-days").innerHTML = ""; //TODO disable this
+}
+
+// Returns an array of ALL time-based elements
+function get_all_elements() {
+	var elements = [];
+	for (var i = 0; i < classes.length; i ++) {
+		elements = elements.concat(classes[i].assignments.concat(classes[i].schedule.classTimes));
+	}
+	return elements;
 }
 
 // Prints all relevant information to the class onto the class overview screen (name, assignments, schedule, etc.)
@@ -57,10 +67,7 @@ function update_full_overview() {
 	flush_feeds();
 	document.getElementById("full-feed").scrollTop = 0;
 	
-	var elements = [];
-	for (var i = 0; i < classes.length; i ++) {
-		elements = elements.concat(classes[i].assignments.concat(classes[i].schedule.classTimes));
-	}
+	var elements = get_all_elements();
 	populate_feed(document.getElementById("full-feed"), elements);
 }
 
@@ -102,6 +109,8 @@ function check_out_class(course) {
 	currentView = 2;
 	document.getElementById("class-overview").style.display = "block";
 	document.getElementById("full-overview").style.display = "none";
+	document.getElementById("calendar-view").style.display = "none";
+	document.getElementById("settings").style.display = "none";
 	update();
 }
 
@@ -111,6 +120,18 @@ function check_out_full_feed() {
 	currentView = 0;
 	document.getElementById("class-overview").style.display = "none";
 	document.getElementById("full-overview").style.display = "block";
+	document.getElementById("calendar-view").style.display = "none";
+	document.getElementById("settings").style.display = "none";
+	update();
+}
+
+// Goes to calendar view
+function check_out_calendar() {
+	currentClass= undefined;
+	currentView = 1;
+	document.getElementById("class-overview").style.display = "none";
+	document.getElementById("full-overview").style.display = "none";
+	document.getElementById("calendar-view").style.display = "block";
 	update();
 }
 

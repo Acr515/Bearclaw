@@ -251,6 +251,11 @@ function create_color_label(assignment) {
 	let color = assignment.myClass.color;
 	label.style.backgroundColor = color;
 	let rgb = hexToRgb(color);
-	if ((rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114) > 186) label.style.color = "black"; else label.style.color = "white";
+	label.style.color = get_black_or_white(rgb);
 	return label;
+}
+
+// Returns black or white based on what color text would belong on a color, rgb (which should be run through hexToRgb before use)
+function get_black_or_white(rgb) {
+	if ((rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114) > 186) return "black"; else return "white";
 }

@@ -58,52 +58,51 @@ function readable_date(date, showToday) {
 		default:
 			dow = "???";
 	}
-	switch (date.getMonth() + 1) {
-		case 1:
-			m = "January";
-			break;
-		case 2:
-			m = "February";
-			break;
-		case 3:
-			m = "March";
-			break;
-		case 4:
-			m = "April";
-			break;
-		case 5:
-			m = "May";
-			break;
-		case 6:
-			m = "June";
-			break;
-		case 7:
-			m = "July";
-			break;
-		case 8:
-			m = "August";
-			break;
-		case 9:
-			m = "September";
-			break;
-		case 10:
-			m = "October";
-			break;
-		case 11:
-			m = "November";
-			break;
-		case 12:
-			m = "December";
-			break;
-		default:
-			m = "???";
-	}
+	m = get_readable_month(date.getMonth());
+
 	return dow + ", " + m + " " + date.getDate() + ", " + date.getFullYear();
+}
+
+// Takes in a numerical month and returns a string. Month is straight from date object so should start at 0 (i.e. May = 4)
+function get_readable_month(month) {
+	switch (month + 1) {
+		case 1:
+			return "January";
+		case 2:
+			return "February";
+		case 3:
+			return "March";
+		case 4:
+			return "April";
+		case 5:
+			return "May";
+		case 6:
+			return "June";
+		case 7:
+			return "July";
+		case 8:
+			return "August";
+		case 9:
+			return "September";
+		case 10:
+			return "October";
+		case 11:
+			return "November";
+		case 12:
+			return "December";
+		default:
+			return "???";
+	}
 }
 
 // Takes a Date object and makes its contents human-readable
 function readable_date_show_time(date, showToday) {
 	return readable_date(date, showToday) + " (" + readable_time(date) + ")";
+}
+
+// Gets the number of days in a month
+function days_in_month(month, year) {
+    return new Date(year, month, 0).getDate();
 }
 
 // Converts a Date object to the local timezone. Specifically used for converting the time/date from a form input that defaults a date to UTC
