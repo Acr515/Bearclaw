@@ -910,6 +910,7 @@ select, option {
 	margin: 0 10px;
 	padding: 2px;
 	position: absolute;
+	top: 0;
 }
 
 #calendar-shift-left {
@@ -1128,6 +1129,10 @@ select, option {
 	margin-top: 40px;
 }
 
+#settings-content-theme h2 {
+	margin-top: 0;
+}
+
 .form-field {
 	margin-bottom: 32px;
 	width: 100%;
@@ -1168,6 +1173,14 @@ select, option {
 #settings-content-about {
 	padding: 30px 10%;
 	text-align: center;
+}
+
+#settings-theme-control {
+	min-width: 300px;
+}
+
+#settings-theme-control option:not(:checked) {
+	background-color: #CCC;
 }
 
 /* This item must be at the bottom of the style sheet so that it overrides all other items */

@@ -348,6 +348,7 @@ var currentView = 0;					// The current view (0 = overview feed, 1 = calendar vi
 
 // Disable display of all other views
 document.getElementById("class-overview").style.display = "none";
+document.getElementById("calendar-view").style.display = "none";
 document.getElementById("settings").style.display = "none";
 
 document.getElementById("class-options").style.visibility = "hidden";	// Workaround
@@ -369,6 +370,15 @@ if (localStorage.options !== undefined && localStorage.options != "") {
 } else {
 	reset_options();
 	save_options();
+}
+
+// Configure theme
+if (options.theme != "universal") {
+	let link = document.createElement("link");
+	link.href = "themes/" + options.theme + "/style-" + options.theme + ".css";
+	link.rel = "stylesheet";
+	link.type = "text/css";
+	document.querySelector("html").appendChild(link);
 }
 
 // First-time renders of sidebar, others

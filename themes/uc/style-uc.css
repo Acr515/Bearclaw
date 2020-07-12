@@ -1,0 +1,132 @@
+/* Styles for University of Cincinnati regular theme */
+
+/* SIDEBAR */
+
+#classes-sidebar {
+	background-color: #080808;
+	background-image: url("./sidebar.png");
+	background-size: 100% auto;
+	background-position: bottom;
+	background-repeat: no-repeat;
+	color: white;
+}
+
+#sidebar-tools {
+	background-color: #080808;
+}
+
+#classes-sidebar-list li:hover, #classes-sidebar-list li:focus {
+	background-color: rgba(255, 255, 255, .2);
+}
+
+#button-add-new-class {
+	background-color: #333;
+	color: #ddd;
+}
+
+#button-add-new-class:hover, #button-add-new-class:focus {
+	background-color: #555;
+}
+
+#button-add-new-class:active {
+	background-color: #777;
+}
+
+
+/* MAIN CONTENT MENU */
+
+#full-overview, #class-overview {
+	background-image: url("./uc-campus.jpg");
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+#class-overview-header, #full-overview-header, #settings-header, #calendar-view-header {
+	background-color: black;
+	color: white;
+}
+
+.class-back-button {
+	color: white;
+}
+
+.class-back-button:hover, .class-back-button:focus {
+	color: #BBB;
+}
+
+.class-back-button:active {
+	color: #999;
+}
+
+.feed-item {
+	background-color: rgba(0, 0, 0, .6);
+	color: white;
+}
+
+.feed-item:hover {
+	background-color: rgba(0, 0, 0, .67);
+}
+
+.feed-item.feed-today {
+	background-color: rgba(0, 0, 0, .78);
+	color: #DDD;
+}
+
+.feed-item.feed-today:hover {
+	background-color: rgba(0, 0, 0, .78);
+}
+
+.feed-link, .feed-link:visited {
+	color: #E22427;
+}
+
+.feed-link:hover {
+	color: #F1797B;
+}
+
+
+/* CALENDAR MENU */
+
+#calendar-view {
+	background-image: url("./uc-campus3.jpg");
+	background-color: rgba(0, 0, 0, .64);
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+#calendar-month {
+	background-color: rgba(0, 0, 0, .6);
+	color: white;
+}
+
+#calendar-body {
+
+	color: white;
+}
+
+.calendar-month-shift {
+	color: white;
+}
+
+.calendar-preview-month {
+	color: #f93e3e;
+}
+
+.calendar-day .day {
+	color: white;
+	font-weight: 400;
+}
+
+.calendar-day:hover {
+	background-color: rgba(0, 0, 0, .2);
+}
+
+.calendar-day.today {
+	outline: 4px dashed #f93e3e;
+}
+
+.day-expand h3, .day-expand h4, .day-expand p {
+	color: #111;
+}

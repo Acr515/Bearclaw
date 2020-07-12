@@ -149,8 +149,10 @@ function hexToRgb(hex) {
 function settings() {
 	document.getElementById("class-overview").style.display = "none";
 	document.getElementById("full-overview").style.display = "none";
+	document.getElementById("calendar-view").style.display = "none";
 	document.getElementById("settings").style.display = "block";
 	settings_switch_tab("general");
+	document.getElementById("settings-theme-control").value = options.theme;
 	populate_settings();
 }
 
@@ -179,6 +181,12 @@ function leave_settings() {
 	document.getElementById("class-overview").style.display = "none";
 	document.getElementById("full-overview").style.display = "block";
 	document.getElementById("settings").style.display = "none";
+}
+
+// Sets the theme setting
+function change_theme_setting() {
+	options.theme = document.getElementById("settings-theme-control").value;
+	save_options();
 }
 
 // Write to options variable and save data
