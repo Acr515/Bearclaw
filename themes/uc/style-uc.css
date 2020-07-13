@@ -35,6 +35,7 @@
 
 /* MAIN CONTENT MENU */
 
+
 #full-overview, #class-overview {
 	background-image: url("./uc-campus.jpg");
 	background-size: cover;
@@ -77,23 +78,29 @@
 	background-color: rgba(0, 0, 0, .78);
 }
 
-.feed-link, .feed-link:visited {
-	color: #E22427;
+.feed-link, .feed-link:visited, a, a:visited {
+	color: #FF4437;
+	font-weight: 400;
 }
 
-.feed-link:hover {
+.feed-link:hover, .feed-link:focus, a:hover, a:focus {
 	color: #F1797B;
 }
 
 
 /* CALENDAR MENU */
 
+
 #calendar-view {
-	background-image: url("./uc-campus3.jpg");
-	background-color: rgba(0, 0, 0, .64);
+	background: url("./uc-campus3.jpg") rgba(0, 0, 0, .64);
+	background-blend-mode: multiply;
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
+}
+
+#calendar-dow-group {
+	background-color: rgba(100, 0, 0, .6);
 }
 
 #calendar-month {
@@ -102,7 +109,6 @@
 }
 
 #calendar-body {
-
 	color: white;
 }
 
@@ -111,7 +117,7 @@
 }
 
 .calendar-preview-month {
-	color: #f93e3e;
+	color: #DDD;
 }
 
 .calendar-day .day {
@@ -129,4 +135,19 @@
 
 .day-expand h3, .day-expand h4, .day-expand p {
 	color: #111;
+}
+
+
+/* SETTINGS MENU STYLES */
+
+
+#settings-body {
+	background: url("uc-campus2.jpg") rgba(0, 0, 0, .66);
+	background-blend-mode: multiply;
+	color: white;
+}
+
+.settings-tab.tab-open {
+	background-color: rgb(100, 0, 0);
+	color: white;
 }

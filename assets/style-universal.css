@@ -1094,6 +1094,10 @@ select, option {
 /* SETTINGS MENU STYLES */
 
 
+#settings-body {
+	height: calc(100vh - 100px);
+}
+
 .settings-tab {
     float: right;
     position: relative;

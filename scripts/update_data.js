@@ -116,6 +116,7 @@ function check_out_class(course) {
 
 // Goes back to full feed
 function check_out_full_feed() {
+	destroy_calendar_date_check_out();
 	currentClass = undefined;
 	currentView = 0;
 	document.getElementById("class-overview").style.display = "none";
